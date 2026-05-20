@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eduardo Alzogaray — Desarrollador Web · Chajarí</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ing:#9966CC;--ing2:#7E57C2;--ing3:#B39DDB;
+  --dark:#0d0d14;--card:#141420;--card2:#1c1c2e;
+  --border:rgba(153,102,204,.15);--txt:#ede9ff;
+  --muted:#7878a0;--acc:#c8b4ff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--txt);font-family:"DM Sans",sans-serif;line-height:1.6;overflow-x:hidden}
+
+/* galaxy canvas — reemplaza los blobs */
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(13,13,20,.82);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:14px 32px;display:flex;align-items:center;justify-content:space-between}
+.nl{font-family:"Syne",sans-serif;font-size:.95rem;font-weight:800;color:var(--acc)}
+.nr{display:flex;gap:28px}
+.nr a{color:var(--muted);font-size:.78rem;font-weight:500;text-decoration:none;letter-spacing:.5px;text-transform:uppercase;transition:color .2s}
+.nr a:hover{color:var(--acc)}
+@media(max-width:600px){.nr{display:none}}
+
+.hero{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:130px 32px 90px;display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}
+@media(max-width:780px){.hero{grid-template-columns:1fr;text-align:center;padding:110px 20px 70px}}
+
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(153,102,204,.1);border:1px solid var(--border);border-radius:100px;padding:6px 16px;font-size:.7rem;font-weight:600;color:var(--acc);letter-spacing:1px;text-transform:uppercase;margin-bottom:22px}
+.dot{width:7px;height:7px;background:#66ee88;border-radius:50%;animation:glow 2s infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(102,238,136,.5)}50%{box-shadow:0 0 0 6px rgba(102,238,136,0)}}
+
+h1{font-family:"Syne",sans-serif;font-size:clamp(3rem,7vw,5rem);font-weight:800;line-height:.9;letter-spacing:-2.5px;margin-bottom:18px}
+h1 span{background:linear-gradient(135deg,var(--txt) 0%,var(--acc) 55%,var(--ing) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.role{font-size:.98rem;color:var(--muted);margin-bottom:22px}
+.role strong{color:var(--ing3)}
+.desc{font-size:.92rem;color:var(--muted);line-height:1.9;margin-bottom:34px;max-width:460px}
+@media(max-width:780px){.desc{margin:0 auto 34px}}
+
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+@media(max-width:780px){.btns{justify-content:center}}
+
+.bp{background:linear-gradient(135deg,var(--ing),var(--ing2));color:#fff;border:none;border-radius:14px;padding:13px 24px;font-family:"DM Sans",sans-serif;font-weight:600;font-size:.86rem;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 28px rgba(153,102,204,.3)}
+.bp:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(153,102,204,.45)}
+.bg2{background:transparent;color:var(--acc);border:1px solid var(--border);border-radius:14px;padding:13px 24px;font-family:"DM Sans",sans-serif;font-weight:600;font-size:.86rem;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
+.bg2:hover{background:rgba(153,102,204,.08);border-color:var(--ing)}
+
+.photo-side{display:flex;justify-content:center}
+.pw{position:relative;width:310px;height:310px}
+@media(max-width:780px){.pw{width:220px;height:220px}}
+.pr{display:none} /* reemplazado por canvas de estrellas */
+@keyframes spin{to{transform:rotate(360deg)}}
+.pg{position:absolute;inset:-32px;border-radius:50%;background:radial-gradient(circle,rgba(153,102,204,.28) 0%,transparent 70%)}
+.pi{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid rgba(153,102,204,.25);position:relative;z-index:1}
+.sf{position:absolute;background:rgba(20,20,32,.9);border:1px solid var(--border);border-radius:14px;padding:10px 14px;z-index:2;backdrop-filter:blur(10px)}
+.sf1{top:-8px;right:-44px}
+.sf2{bottom:8px;left:-52px}
+@media(max-width:780px){.sf1{right:-16px}.sf2{left:-16px}}
+.sfn{font-family:"Syne",sans-serif;font-size:1.3rem;font-weight:800;color:var(--acc)}
+.sfl{font-size:.62rem;color:var(--muted);margin-top:1px;white-space:nowrap}
+
+section{position:relative;z-index:1;padding:90px 24px}
+.c{max-width:1000px;margin:0 auto}
+.stag{font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--ing);font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.stag::before{content:"";width:20px;height:1px;background:var(--ing)}
+.stitle{font-family:"Syne",sans-serif;font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;letter-spacing:-1px;margin-bottom:12px}
+.ssub{color:var(--muted);font-size:.9rem;max-width:480px;margin-bottom:46px;line-height:1.8}
+
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:26px;text-decoration:none;color:inherit;display:block;transition:all .3s;position:relative;overflow:hidden}
+.pc::after{content:"";position:absolute;inset:0;border-radius:22px;background:linear-gradient(135deg,rgba(153,102,204,.07),transparent);opacity:0;transition:opacity .3s}
+.pc:hover{transform:translateY(-5px);border-color:rgba(153,102,204,.35)}
+.pc:hover::after{opacity:1}
+.pico{width:50px;height:50px;border-radius:16px;background:linear-gradient(135deg,var(--ing),var(--ing2));display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:18px}
+.pname{font-family:"Syne",sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:8px}
+.pdesc{font-size:.82rem;color:var(--muted);line-height:1.75;margin-bottom:16px}
+.ptags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.tag{background:rgba(153,102,204,.1);border:1px solid rgba(153,102,204,.18);border-radius:20px;padding:3px 10px;font-size:.67rem;font-weight:600;color:var(--acc);letter-spacing:.4px}
+.tag-dev{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.22);color:#4ade80}
+.plink{font-size:.77rem;color:var(--ing3);font-weight:600;display:flex;align-items:center;gap:6px;transition:gap .2s}
+.pc:hover .plink{gap:10px}
+
+/* BADGE EN DESARROLLO */
+.badge-dev{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);
+  border-radius:100px;padding:3px 10px;
+  font-size:.62rem;font-weight:700;color:#4ade80;
+  letter-spacing:.5px;text-transform:uppercase;
+  margin-bottom:12px;
+}
+.dot-dev{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:glow-dev 1.5s infinite}
+@keyframes glow-dev{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(74,222,128,.5)}50%{opacity:.7;box-shadow:0 0 0 5px rgba(74,222,128,0)}}
+
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:13px}
+.sc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;transition:all .2s}
+.sc:hover{border-color:rgba(153,102,204,.35);transform:translateY(-2px)}
+.stop{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sico{font-size:1.35rem}
+.sname{font-weight:600;font-size:.86rem}
+.slvl{font-size:.67rem;color:var(--muted);margin-top:1px}
+.sbar{height:3px;background:rgba(153,102,204,.12);border-radius:10px;overflow:hidden}
+.sfill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--ing),var(--acc));width:0;transition:width 1.2s ease}
+
+.ag{display:grid;grid-template-columns:1.2fr 1fr;gap:52px;align-items:start}
+@media(max-width:700px){.ag{grid-template-columns:1fr}}
+.ap{color:var(--muted);line-height:1.9;margin-bottom:15px;font-size:.92rem}
+.ap strong{color:var(--txt)}
+.asts{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.asc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center}
+.asn{font-family:"Syne",sans-serif;font-size:1.9rem;font-weight:800;background:linear-gradient(135deg,var(--acc),var(--ing));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.asl{font-size:.67rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:1px}
+
+.iw{background:linear-gradient(135deg,rgba(153,102,204,.09),rgba(126,87,194,.04));border:1px solid rgba(153,102,204,.24);border-radius:28px;padding:52px;position:relative;overflow:hidden}
+.iw::before{content:"IS";position:absolute;right:-10px;bottom:-40px;font-family:"Syne",sans-serif;font-size:16rem;font-weight:800;color:rgba(153,102,204,.04);line-height:1;pointer-events:none;user-select:none}
+.ii{font-size:.93rem;color:var(--muted);line-height:1.9;max-width:680px;margin-bottom:38px}
+.ii strong{color:var(--txt)}
+.rs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:22px}
+.r{display:flex;gap:13px}
+.rn{font-family:"Syne",sans-serif;font-size:1.8rem;font-weight:800;color:rgba(153,102,204,.22);line-height:1;flex-shrink:0;padding-top:2px}
+.rt{font-weight:700;font-size:.88rem;margin-bottom:5px;color:var(--txt)}
+.rd{font-size:.79rem;color:var(--muted);line-height:1.65}
+
+.lgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:13px}
+.lc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;display:flex;align-items:center;gap:13px;text-decoration:none;color:inherit;transition:all .2s}
+.lc:hover{border-color:rgba(153,102,204,.35);transform:translateY(-2px)}
+.la{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0}
+.lt{font-weight:600;font-size:.86rem;margin-bottom:3px}
+.ls{font-size:.7rem;color:var(--muted)}
+.larr{margin-left:auto;color:var(--muted);transition:all .2s}
+.lc:hover .larr{color:var(--acc);transform:translateX(4px)}
+
+.ctabox{background:linear-gradient(135deg,rgba(153,102,204,.1),rgba(126,87,194,.05));border:1px solid rgba(153,102,204,.22);border-radius:32px;padding:68px 44px;text-align:center;max-width:680px;margin:0 auto;position:relative;overflow:hidden}
+.ctabox::after{content:"";position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(153,102,204,.12) 0%,transparent 70%);top:-150px;right:-150px;pointer-events:none}
+.ctat{font-family:"Syne",sans-serif;font-size:2.1rem;font-weight:800;margin-bottom:14px}
+.ctas{color:var(--muted);margin-bottom:34px;line-height:1.8;font-size:.92rem}
+.ctabtns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+footer{text-align:center;padding:26px;border-top:1px solid var(--border);color:var(--muted);font-size:.73rem;position:relative;z-index:1}
+
+.rv{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s ease}
+.rv.v{opacity:1;transform:translateY(0)}
+
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.f1{animation:fu .8s .1s ease both}
+.f2{animation:fu .8s .25s ease both}
+.f3{animation:fu .8s .4s ease both}
+.f4{animation:fu .8s .55s ease both}
+.f5{animation:fu .8s .7s ease both}
+</style>
+</head>
+<body>
+<canvas id="galaxy-canvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;width:100%;height:100%"></canvas>
+
+<nav>
+  <div class="nl">Eduardo Alzogaray</div>
+  <div class="nr">
+    <a href="#proyectos">Proyectos</a>
+    <a href="#skills">Skills</a>
+    <a href="#sobre-mi">Sobre mí</a>
+    <a href="#ingenio">Por qué Ingenio</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</nav>
+
+<div style="position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 24px">
+  <div class="hero" style="max-width:100%;margin:0;padding-left:0;padding-right:0">
+    <div>
+      <div class="badge f1"><div class="dot"></div>Disponible · Chajarí, Entre Ríos</div>
+      <h1 class="f2"><span>Eduardo</span><br>Alzogaray</h1>
+      <p class="role f3">Desarrollador Web · <strong>Creativo · Builder · Chajarí</strong></p>
+      <p class="desc f4">25 años. Construyo apps reales con React, Firebase e IA. Me apasiona crear, comunicar y encontrar soluciones que funcionen de verdad — no solo en teoría.</p>
+      <div class="btns f5">
+        <a href="#ingenio" class="bp">✦ Por qué Ingenio Solutions</a>
+        <a href="#proyectos" class="bg2">Ver proyectos →</a>
+      </div>
+    </div>
+    <div class="photo-side f2">
+      <div class="pw" style="position:relative">
+        <div class="pg"></div>
+        <canvas id="orbit-canvas" style="position:absolute;inset:-60px;width:calc(100% + 120px);height:calc(100% + 120px);pointer-events:none;z-index:0"></canvas>
+        <img src="https://i.imgur.com/uViQNGs.jpeg" alt="Eduardo Alzogaray" class="pi" style="position:relative;z-index:1">
+        <div class="sf sf1"><div class="sfn">7</div><div class="sfl">Apps en producción</div></div>
+        <div class="sf sf2"><div class="sfn">100%</div><div class="sfl">Self-taught</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROYECTOS -->
+<section id="proyectos">
+  <div class="c">
+    <div class="stag rv">Lo que construí</div>
+    <h2 class="stitle rv">Proyectos reales,<br>en producción</h2>
+    <p class="ssub rv">No son demos. Son apps funcionando, usadas por personas reales, desplegadas en la nube.</p>
+    <div class="pgrid">
+
+      <a href="https://donata-pi.vercel.app" target="_blank" class="pc rv">
+        <div class="pico">🍞</div>
+        <div class="pname">Donata Stock</div>
+        <div class="pdesc">Sistema de gestión de stock para una panadería. Login con roles, stock diario, planilla semanal, IA que lee fotos de la planilla y actualiza automáticamente. Sync Firebase en tiempo real.</div>
+        <div class="ptags"><span class="tag">React</span><span class="tag">Firebase</span><span class="tag">Vercel</span><span class="tag">Claude AI</span></div>
+        <div class="plink">Ver app en vivo ↗</div>
+      </a>
+
+      <a href="https://tenia-razon.vercel.app" target="_blank" class="pc rv">
+        <div class="pico">🧉</div>
+        <div class="pname">Tenía Razón</div>
+        <div class="pdesc">App de fitness con tokens $RAZON. Apostás que cumplís desafíos de pasos — si fallás perdés todo. Sistema de equipos, wallet, ranking y coach con IA. Modelo de negocio real.</div>
+        <div class="ptags"><span class="tag">React</span><span class="tag">Firebase</span><span class="tag">Tokens</span><span class="tag">IA</span></div>
+        <div class="plink">Ver app en vivo ↗</div>
+      </a>
+
+      <a href="https://elfinalestacercaarg.shop/" target="_blank" class="pc rv">
+        <div class="pico">🛍️</div>
+        <div class="pname">El Final Está Cerca</div>
+        <div class="pdesc">Sitio de infoproductos con identidad visual propia, carrusel, ruleta de capítulos, slot de cristales, countdown a 2027, quiz, GA4 + Meta Pixel. De la idea al deploy completo.</div>
+        <div class="ptags"><span class="tag">HTML/CSS</span><span class="tag">Diseño</span><span class="tag">Branding</span><span class="tag">Deploy</span></div>
+        <div class="plink">Ver sitio ↗</div>
+      </a>
+
+      <!-- MÚSICO YA — CON LINK -->
+      <a href="musico_ya.html" target="_blank" class="pc rv" style="border-color:rgba(96,165,250,.25)">
+        <div class="badge-dev" style="background:rgba(96,165,250,.1);border-color:rgba(96,165,250,.3);color:#93c5fd"><div class="dot-dev" style="background:#60a5fa;animation:pulse 2s infinite"></div>Demo disponible</div>
+        <div class="pico" style="background:linear-gradient(135deg,#1d4ed8,#3b82f6)">🎵</div>
+        <div class="pname">Músico Ya</div>
+        <div class="pdesc">Plataforma para conectar organizadores de eventos con músicos disponibles en Entre Ríos. ¿Te quedaste sin DJ a las 22hs? En minutos tenés propuestas. Marketplace real, modelo de negocio claro.</div>
+        <div class="ptags">
+          <span class="tag">HTML/CSS/JS</span>
+          <span class="tag">EmailJS</span>
+          <span class="tag">Entre Ríos</span>
+          <span class="tag tag-dev" style="background:rgba(96,165,250,.08);border-color:rgba(96,165,250,.25);color:#93c5fd">En construcción</span>
+        </div>
+        <div class="plink" style="color:#60a5fa">Ver demo ↗</div>
+      </a>
+
+      <!-- MENSAJERO RURAL — CON LINK -->
+      <a href="mensajero_rural.html" target="_blank" class="pc rv" style="border-color:rgba(74,222,128,.2)">
+        <div class="badge-dev"><div class="dot-dev"></div>Demo disponible</div>
+        <div class="pico" style="background:linear-gradient(135deg,#16a34a,#15803d)">🌾</div>
+        <div class="pname">Mensajero Rural</div>
+        <div class="pdesc">App para productores del campo de Entre Ríos. Mandás un audio por WhatsApp y la IA registra automáticamente: vacunaciones, partos, ventas, labores. Dashboard web + resumen semanal automático.</div>
+        <div class="ptags">
+          <span class="tag">Python</span>
+          <span class="tag">Claude AI</span>
+          <span class="tag">WhatsApp API</span>
+          <span class="tag">Supabase</span>
+          <span class="tag tag-dev">En construcción</span>
+        </div>
+        <div class="plink" style="color:#4ade80">Ver demo ↗</div>
+      </a>
+
+      <!-- CHAJARÍ OFICIOS -->
+      <a href="https://chajari-oficios.vercel.app" target="_blank" class="pc rv" style="border-color:rgba(251,191,36,.25)">
+        <div class="badge-dev" style="background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.3);color:#fcd34d"><div class="dot-dev" style="background:#fbbf24"></div>Demo disponible</div>
+        <div class="pico" style="background:linear-gradient(135deg,#92400e,#d97706)">🔨</div>
+        <div class="pname">Chajarí Oficios</div>
+        <div class="pdesc">Marketplace local de oficios para Chajarí. Publicás un trabajo (plomero, electricista, fumigador...) y los profesionales se postulan. Contacto directo por WhatsApp. Dato local, conexión real.</div>
+        <div class="ptags">
+          <span class="tag">HTML/CSS/JS</span>
+          <span class="tag">Tailwind</span>
+          <span class="tag">LocalStorage</span>
+          <span class="tag tag-dev" style="background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.25);color:#fcd34d">En construcción</span>
+        </div>
+        <div class="plink" style="color:#fbbf24">Ver demo ↗</div>
+      </a>
+
+      <!-- DEEP CLEAN -->
+      <a href="https://deep-clean-tan.vercel.app" target="_blank" class="pc rv" style="border-color:rgba(16,185,129,.25)">
+        <div class="pico" style="background:linear-gradient(135deg,#065f46,#10b981)">🧹</div>
+        <div class="pname">Deep Clean v3.6</div>
+        <div class="pdesc">Script Windows que limpia profundamente el sistema liberando hasta 20 GB. 12 pasos, 3 modos (Safe / Completo / Personalizado), punto de restauración automático y reporte en el escritorio.</div>
+        <div class="ptags">
+          <span class="tag">Batch Script</span>
+          <span class="tag">PowerShell</span>
+          <span class="tag">Windows</span>
+        </div>
+        <div class="plink" style="color:#10b981">Ver proyecto ↗</div>
+      </a>
+
+      <a href="#ingenio" class="pc rv" style="border-style:dashed;border-color:rgba(153,102,204,.22)">
+        <div class="pico" style="background:linear-gradient(135deg,rgba(153,102,204,.25),rgba(126,87,194,.15))">🚀</div>
+        <div class="pname" style="color:var(--muted)">Rediseño Ingenio Solutions</div>
+        <div class="pdesc">Propuesta de rediseño del sitio web de Ingenio Solutions — hecha por iniciativa propia. Mobile-first, más rápido, más moderno, mejor UX.</div>
+        <div class="ptags"><span class="tag">Iniciativa propia</span><span class="tag">UI/UX</span><span class="tag">React</span></div>
+        <div class="plink" style="color:var(--ing)">Ver propuesta ↓</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" style="padding-top:0">
+  <div class="c">
+    <div class="stag rv">Tecnologías</div>
+    <h2 class="stitle rv">Stack técnico</h2>
+    <p class="ssub rv">Aprendiendo rápido, aplicando desde el primer día en proyectos reales.</p>
+    <div class="sgrid">
+      <div class="sc rv"><div class="stop"><div class="sico">⚛️</div><div><div class="sname">React</div><div class="slvl">Componentes, hooks, estado</div></div></div><div class="sbar"><div class="sfill" data-w="70%"></div></div></div>
+      <div class="sc rv"><div class="stop"><div class="sico">🔥</div><div><div class="sname">Firebase</div><div class="slvl">Realtime DB, Auth, reglas</div></div></div><div class="sbar"><div class="sfill" data-w="68%"></div></div></div>
+      <div class="sc rv"><div class="stop"><div class="sico">▲</div><div><div class="sname">Vercel</div><div class="slvl">Deploy, CI/CD automático</div></div></div><div class="sbar"><div class="sfill" data-w="82%"></div></div></div>
+      <div class="sc rv"><div class="stop"><div class="sico">🐙</div><div><div class="sname">Git / GitHub</div><div class="slvl">Control de versiones</div></div></div><div class="sbar"><div class="sfill" data-w="65%"></div></div></div>
+      <div class="sc rv"><div class="stop"><div class="sico">🤖</div><div><div class="sname">Claude / IA API</div><div class="slvl">Integración IA en apps</div></div></div><div class="sbar"><div class="sfill" data-w="75%"></div></div></div>
+      <div class="sc rv"><div class="stop"><div class="sico">🌐</div><div><div class="sname">HTML · CSS · JS</div><div class="slvl">Base sólida, estilos avanzados</div></div></div><div class="sbar"><div class="sfill" data-w="73%"></div></div></div>
+      <div class="sc rv"><div class="stop"><div class="sico">▲</div><div><div class="sname">Next.js</div><div class="slvl">App Router, SSR · Músico Ya</div></div></div><div class="sbar"><div class="sfill" data-w="45%"></div></div></div>
+      <div class="sc rv"><div class="stop"><div class="sico">🐍</div><div><div class="sname">Python</div><div class="slvl">Aprendiendo · Mensajero Rural</div></div></div><div class="sbar"><div class="sfill" data-w="35%"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE MÍ -->
+<section id="sobre-mi">
+  <div class="c">
+    <div class="stag rv">Quién soy</div>
+    <h2 class="stitle rv">Más que código</h2>
+    <div class="ag">
+      <div class="rv">
+        <p class="ap">Tengo 25 años y soy de <strong>Chajarí, Entre Ríos</strong>. No vengo de una carrera técnica clásica — aprendí <strong>haciendo cosas reales</strong>, con proyectos funcionales que hoy están en producción.</p>
+        <p class="ap">Me defino como alguien <strong>muy creativo, enérgico y apasionado por comunicar y vender ideas</strong>. Eso se nota en cómo pienso los productos: no solo desde el código, sino desde el usuario, desde el negocio.</p>
+        <p class="ap">Tengo una cuenta de Instagram con fotos y videos de Chajarí que creció orgánicamente. <strong>Entiendo la comunicación y sé cómo conectar con la gente.</strong> Esa combinación de habilidades técnicas y creativas es lo que me diferencia.</p>
+        <p class="ap">Quiero <strong>crecer en Chajarí</strong>, no irme. Eso es compromiso real.</p>
+      </div>
+      <div class="asts rv">
+        <div class="asc"><div class="asn">7</div><div class="asl">Apps publicadas</div></div>
+        <div class="asc"><div class="asn">25</div><div class="asl">Años</div></div>
+        <div class="asc"><div class="asn">0→7</div><div class="asl">En pocos meses</div></div>
+        <div class="asc"><div class="asn">∞</div><div class="asl">Ganas de aprender</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POR QUÉ INGENIO -->
+<section id="ingenio">
+  <div class="c">
+    <div class="stag rv">Mi objetivo</div>
+    <h2 class="stitle rv">Por qué Ingenio Solutions</h2>
+    <div class="iw rv">
+      <p class="ii">Ingenio Solutions es la empresa de sistemas de Chajarí. Trabajan con Odoo, tienen clientes reales en toda la región y <strong>crecieron más del 300% en un año</strong>. Para mí no es solo un trabajo — es la oportunidad de aprender de los mejores en mi ciudad y aportar algo genuino desde el primer día. Quiero entrar, aprender Odoo en profundidad y crecer con el equipo.</p>
+      <div class="rs">
+        <div class="r"><div class="rn">01</div><div><div class="rt">Ya sé desplegar apps reales</div><div class="rd">React + Next.js + Firebase + Vercel + GitHub + IA. No arranco de cero — quiero aprender Odoo con esa misma energía.</div></div></div>
+        <div class="r"><div class="rn">02</div><div><div class="rt">Aprendo extraordinariamente rápido</div><div class="rd">Pasé de cero a 5 proyectos en pocos meses, sin formación previa. Con mentores reales voy a ir el doble de rápido.</div></div></div>
+        <div class="r"><div class="rn">03</div><div><div class="rt">Pienso en el negocio, no solo el código</div><div class="rd">Cada app que hice tiene un modelo de negocio detrás. Entiendo cómo el software genera valor real — exactamente lo que hace Odoo.</div></div></div>
+        <div class="r"><div class="rn">04</div><div><div class="rt">Soy de Chajarí, me quedo en Chajarí</div><div class="rd">No busco irme. Quiero crecer acá, con el equipo local, en la empresa que más está creciendo en la ciudad.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LINKS -->
+<section style="padding-top:0">
+  <div class="c">
+    <div class="stag rv">Mis perfiles</div>
+    <h2 class="stitle rv">Encontrame acá</h2>
+    <div class="lgrid">
+      <a href="https://www.instagram.com/postaleslindasdechajari/" target="_blank" class="lc rv">
+        <div class="la" style="background:linear-gradient(135deg,#f09433,#dc2743,#bc1888)">📸</div>
+        <div><div class="lt">Postales Lindas de Chajarí</div><div class="ls">Instagram · Fotos y videos de la ciudad</div></div>
+        <div class="larr">→</div>
+      </a>
+      <a href="https://donata-pi.vercel.app" target="_blank" class="lc rv">
+        <div class="la" style="background:linear-gradient(135deg,#f5c518,#e0a800)">🍞</div>
+        <div><div class="lt">Donata</div><div class="ls">App de stock · En producción</div></div>
+        <div class="larr">→</div>
+      </a>
+      <a href="https://tenia-razon.vercel.app" target="_blank" class="lc rv">
+        <div class="la" style="background:linear-gradient(135deg,#29b6f6,#0288d1)">🧉</div>
+        <div><div class="lt">Tenía Razón</div><div class="ls">App fitness · En producción</div></div>
+        <div class="larr">→</div>
+      </a>
+      <a href="https://elfinalestacercaarg.shop/" target="_blank" class="lc rv">
+        <div class="la" style="background:linear-gradient(135deg,#9966CC,#7E57C2)">🛍️</div>
+        <div><div class="lt">El Final Está Cerca</div><div class="ls">Sitio web · Diseño propio</div></div>
+        <div class="larr">→</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contacto" style="padding-top:0;padding-bottom:80px">
+  <div class="c">
+    <div class="ctabox rv">
+      <div class="ctat">Hablemos 👋</div>
+      <p class="ctas">Si llegaste hasta acá, ya sabés que tengo las ganas. No prometo ser el mejor desarrollador del mundo — prometo aprender más rápido que nadie y dar todo desde el primer día en Ingenio Solutions.</p>
+      <div class="ctabtns">
+        <a href="https://wa.me/5493456461557" target="_blank" class="bp">💬 WhatsApp</a>
+        <a href="mailto:nahuealzogaray01@gmail.com" class="bg2">✉️ Email</a>
+      </div>
+      <p style="margin-top:22px;font-size:.7rem;color:var(--muted)">Eduardo Alzogaray · Chajarí, Entre Ríos · 25 años · 2026</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- SISTEMA SOLAR THREE.JS -->
+<section id="globo" style="padding:80px 24px 60px;position:relative;z-index:1">
+  <div class="c" style="text-align:center">
+    <div class="stag rv" style="justify-content:center">El universo</div>
+    <h2 class="stitle rv" style="text-align:center">Sistema Solar interactivo</h2>
+    <p style="color:var(--muted);font-size:.9rem;margin-bottom:40px;line-height:1.7;max-width:500px;margin-left:auto;margin-right:auto" class="rv">
+      Arrastrá para rotar la cámara · Scroll para zoom · Así pienso los proyectos — todo conectado, todo en movimiento.
+    </p>
+
+    <!-- Canvas Three.js -->
+    <div class="rv" style="position:relative;display:flex;justify-content:center;margin-bottom:28px">
+      <canvas id="solar-system" style="cursor:grab;touch-action:none;border-radius:20px;box-shadow:0 0 100px rgba(153,102,204,.2),0 0 40px rgba(0,0,0,.8);display:block"></canvas>
+    </div>
+
+    <!-- Info planeta hover -->
+    <div id="planet-info" style="min-height:40px;margin-bottom:16px">
+      <span id="planet-info-text" style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--acc);opacity:0;transition:opacity .3s"></span>
+    </div>
+
+    <!-- Controles -->
+    <div class="rv" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button onclick="solarPause()" id="btn-pause" style="background:rgba(153,102,204,.15);border:1px solid rgba(153,102,204,.3);border-radius:100px;padding:8px 20px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;color:var(--acc);cursor:pointer;transition:all .2s">⏸ Pausar</button>
+      <button onclick="solarReset()" style="background:rgba(153,102,204,.15);border:1px solid rgba(153,102,204,.3);border-radius:100px;padding:8px 20px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;color:var(--acc);cursor:pointer;transition:all .2s">↺ Resetear vista</button>
+      <button onclick="solarTop()" style="background:rgba(153,102,204,.15);border:1px solid rgba(153,102,204,.3);border-radius:100px;padding:8px 20px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;color:var(--acc);cursor:pointer;transition:all .2s">⬆ Vista cenital</button>
+    </div>
+
+    <p style="margin-top:20px;font-size:.7rem;color:var(--muted);letter-spacing:.5px" class="rv">
+      Mercurio · Venus · Tierra · Marte · Júpiter — todos en órbita real
+    </p>
+  </div>
+</section>
+
+<footer>Construido con React, Firebase y Claude AI — Eduardo Alzogaray © 2026</footer>
+
+<script>
+// ══ REVEAL ══
+const obs=new IntersectionObserver((e)=>{e.forEach((el,i)=>{if(el.isIntersecting)setTimeout(()=>el.target.classList.add("v"),i*70)})},{threshold:.1});
+document.querySelectorAll(".rv").forEach(r=>obs.observe(r));
+const bo=new IntersectionObserver((e)=>{e.forEach(el=>{if(el.isIntersecting)el.target.style.width=el.target.dataset.w})},{threshold:.4});
+document.querySelectorAll(".sfill").forEach(b=>bo.observe(b));
+
+// ══ GALAXY CANVAS (fondo) ══
+(function(){
+  const c = document.getElementById("galaxy-canvas");
+  if(!c) return;
+  const ctx = c.getContext("2d");
+  let W, H, stars=[], nebulas=[], bgPlanets=[];
+
+  function resize(){
+    W = c.width = window.innerWidth;
+    H = c.height = window.innerHeight;
+    initStars();
+  }
+
+  function initStars(){
+    stars = [];
+    for(let i=0;i<220;i++){
+      stars.push({
+        x: Math.random()*W, y: Math.random()*H,
+        r: Math.random()*1.8+0.2,
+        op: Math.random()*0.8+0.2,
+        speed: Math.random()*0.3+0.05,
+        twinkle: Math.random()*Math.PI*2
+      });
+    }
+    nebulas = [];
+    const nColors = [
+      "rgba(153,102,204,", "rgba(100,80,180,", "rgba(80,100,200,",
+      "rgba(180,100,150,", "rgba(60,40,120,"
+    ];
+    for(let i=0;i<5;i++){
+      nebulas.push({
+        x: Math.random()*W, y: Math.random()*H,
+        r: 180+Math.random()*200,
+        color: nColors[i%nColors.length],
+        op: 0.06+Math.random()*0.08
+      });
+    }
+    bgPlanets = [
+      {x:W*0.08, y:H*0.15, r:22, color:"#8B7355", rings:false, name:""},
+      {x:W*0.92, y:H*0.25, r:18, color:"#B8860B", rings:true, name:""},
+      {x:W*0.95, y:H*0.75, r:12, color:"#4169E1", rings:false, name:""},
+      {x:W*0.05, y:H*0.85, r:16, color:"#CD5C5C", rings:false, name:""},
+    ];
+  }
+
+  let t=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // Fondo negro espacial
+    ctx.fillStyle="#0d0d14";
+    ctx.fillRect(0,0,W,H);
+
+    // Nebulosas
+    nebulas.forEach(n=>{
+      const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r);
+      g.addColorStop(0,n.color+n.op+")");
+      g.addColorStop(1,n.color+"0)");
+      ctx.fillStyle=g;
+      ctx.fillRect(0,0,W,H);
+    });
+
+    // Estrellas con twinkle
+    stars.forEach(s=>{
+      s.twinkle+=0.02;
+      const op = s.op*(0.6+0.4*Math.sin(s.twinkle));
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${op})`;
+      ctx.fill();
+      // Algunas tienen destellos en cruz
+      if(s.r>1.2){
+        ctx.strokeStyle=`rgba(255,255,255,${op*0.3})`;
+        ctx.lineWidth=0.5;
+        ctx.beginPath();
+        ctx.moveTo(s.x-s.r*3,s.y); ctx.lineTo(s.x+s.r*3,s.y);
+        ctx.moveTo(s.x,s.y-s.r*3); ctx.lineTo(s.x,s.y+s.r*3);
+        ctx.stroke();
+      }
+    });
+
+    // Planetas decorativos de fondo
+    bgPlanets.forEach(p=>{
+      // Glow
+      const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);
+      g.addColorStop(0,p.color+"44");
+      g.addColorStop(1,"transparent");
+      ctx.fillStyle=g;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r*3,0,Math.PI*2);
+      ctx.fill();
+      // Planeta
+      const gp=ctx.createRadialGradient(p.x-p.r*0.3,p.y-p.r*0.3,0,p.x,p.y,p.r);
+      gp.addColorStop(0,lighten(p.color,40));
+      gp.addColorStop(0.6,p.color);
+      gp.addColorStop(1,darken(p.color,40));
+      ctx.fillStyle=gp;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fill();
+      // Anillos opcionales
+      if(p.rings){
+        ctx.save();
+        ctx.translate(p.x,p.y);
+        ctx.scale(1,0.3);
+        ctx.strokeStyle=p.color+"88";
+        ctx.lineWidth=3;
+        ctx.beginPath();
+        ctx.arc(0,0,p.r*1.8,0,Math.PI*2);
+        ctx.stroke();
+        ctx.lineWidth=1.5;
+        ctx.strokeStyle=p.color+"44";
+        ctx.beginPath();
+        ctx.arc(0,0,p.r*2.2,0,Math.PI*2);
+        ctx.stroke();
+        ctx.restore();
+      }
+    });
+
+    t++;
+    requestAnimationFrame(draw);
+  }
+
+  function lighten(hex,amt){
+    const r=Math.min(255,parseInt(hex.slice(1,3),16)+amt);
+    const g=Math.min(255,parseInt(hex.slice(3,5),16)+amt);
+    const b=Math.min(255,parseInt(hex.slice(5,7),16)+amt);
+    return `rgb(${r},${g},${b})`;
+  }
+  function darken(hex,amt){
+    const r=Math.max(0,parseInt(hex.slice(1,3),16)-amt);
+    const g=Math.max(0,parseInt(hex.slice(3,5),16)-amt);
+    const b=Math.max(0,parseInt(hex.slice(5,7),16)-amt);
+    return `rgb(${r},${g},${b})`;
+  }
+
+  window.addEventListener("resize",resize);
+  resize();
+  draw();
+})();
+
+// ══ ORBIT STARS (alrededor de la foto) ══
+(function(){
+  const c = document.getElementById("orbit-canvas");
+  if(!c) return;
+  const ctx = c.getContext("2d");
+  const W = c.width = c.offsetWidth;
+  const H = c.height = c.offsetHeight;
+  const cx = W/2, cy = H/2;
+
+  // Estrellas orbitando en 3 anillos
+  const orbitStars = [];
+  const rings = [
+    {r:W*0.47, count:12, speed:0.004, size:2.2, color:"#c8b4ff"},
+    {r:W*0.43, count:8,  speed:-0.007, size:1.5, color:"#9966CC"},
+    {r:W*0.50, count:6,  speed:0.003, size:3,   color:"#ffffff"},
+  ];
+  rings.forEach((ring,ri)=>{
+    for(let i=0;i<ring.count;i++){
+      orbitStars.push({
+        angle: (i/ring.count)*Math.PI*2,
+        r: ring.r,
+        speed: ring.speed,
+        size: ring.size * (0.7+Math.random()*0.6),
+        color: ring.color,
+        twinkle: Math.random()*Math.PI*2
+      });
+    }
+  });
+
+  // Planetas pequeños orbitando
+  const orbitPlanets = [
+    {angle:0, r:W*0.46, speed:0.006, size:5, color:"#4169E1", name:"🌍"},
+    {angle:Math.PI, r:W*0.46, speed:0.006, size:4, color:"#CD5C5C", name:"🔴"},
+    {angle:Math.PI/2, r:W*0.49, speed:-0.004, size:6, color:"#B8860B", name:"🪐"},
+  ];
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    // Anillos de órbita sutiles
+    rings.forEach(ring=>{
+      ctx.beginPath();
+      ctx.arc(cx,cy,ring.r,0,Math.PI*2);
+      ctx.strokeStyle="rgba(153,102,204,0.08)";
+      ctx.lineWidth=1;
+      ctx.stroke();
+    });
+
+    // Estrellas
+    orbitStars.forEach(s=>{
+      s.angle += s.speed;
+      s.twinkle += 0.05;
+      const x = cx + Math.cos(s.angle)*s.r;
+      const y = cy + Math.sin(s.angle)*s.r * 0.35; // perspectiva elíptica
+      const op = 0.5+0.5*Math.sin(s.twinkle);
+      ctx.beginPath();
+      ctx.arc(x,y,s.size,0,Math.PI*2);
+      ctx.fillStyle=s.color+Math.floor(op*255).toString(16).padStart(2,"0");
+      ctx.fill();
+      // Destello
+      if(s.size>2){
+        ctx.strokeStyle=s.color+"55";
+        ctx.lineWidth=0.5;
+        ctx.beginPath();
+        ctx.moveTo(x-s.size*2,y); ctx.lineTo(x+s.size*2,y);
+        ctx.moveTo(x,y-s.size*2); ctx.lineTo(x,y+s.size*2);
+        ctx.stroke();
+      }
+    });
+
+    // Planetas pequeños
+    orbitPlanets.forEach(p=>{
+      p.angle += p.speed;
+      const x = cx + Math.cos(p.angle)*p.r;
+      const y = cy + Math.sin(p.angle)*p.r*0.35;
+      // Glow
+      const g=ctx.createRadialGradient(x,y,0,x,y,p.size*3);
+      g.addColorStop(0,p.color+"66");
+      g.addColorStop(1,"transparent");
+      ctx.fillStyle=g;
+      ctx.beginPath();
+      ctx.arc(x,y,p.size*3,0,Math.PI*2);
+      ctx.fill();
+      // Planeta
+      const gp=ctx.createRadialGradient(x-p.size*0.3,y-p.size*0.3,0,x,y,p.size);
+      gp.addColorStop(0,"#ffffff44");
+      gp.addColorStop(1,p.color);
+      ctx.fillStyle=gp;
+      ctx.beginPath();
+      ctx.arc(x,y,p.size,0,Math.PI*2);
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ══ SOLAR SYSTEM THREE.JS — CARGADO DINÁMICO ══
+(function(){
+  // Cargar Three.js desde CDN y luego iniciar
+  const s = document.createElement("script");
+  s.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+  s.onload = initSolarSystem;
+  document.head.appendChild(s);
+
+  let paused = false;
+  let solarScene, solarCamera, solarRenderer, planetsArr=[], solarClock;
+  let isDragging=false, lastX=0, lastY=0, rotSpeedX=0, rotSpeedY=0, baseZoom=28;
+
+  window.solarPause = function(){
+    paused = !paused;
+    document.getElementById("btn-pause").textContent = paused ? "▶ Reanudar" : "⏸ Pausar";
+  };
+  window.solarReset = function(){
+    if(!solarCamera) return;
+    solarCamera.position.set(0,8,baseZoom);
+    solarCamera.lookAt(0,0,0);
+    rotSpeedX=0; rotSpeedY=0;
+  };
+  window.solarTop = function(){
+    if(!solarCamera) return;
+    solarCamera.position.set(0,45,0.1);
+    solarCamera.lookAt(0,0,0);
+    rotSpeedX=0; rotSpeedY=0;
+  };
+
+  function initSolarSystem(){
+    const canvas = document.getElementById("solar-system");
+    if(!canvas || typeof THREE==="undefined") return;
+
+    // Resize inicial
+    const size = Math.min(window.innerWidth*0.92, 680);
+    canvas.width = size; canvas.height = size;
+
+    solarRenderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+    solarRenderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+    solarRenderer.setSize(size,size);
+    solarRenderer.shadowMap.enabled = true;
+    solarRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    solarScene = new THREE.Scene();
+    solarCamera = new THREE.PerspectiveCamera(55,1,0.1,1000);
+    solarCamera.position.set(0,8,baseZoom);
+    solarCamera.lookAt(0,0,0);
+
+    // Luces
+    solarScene.add(new THREE.AmbientLight(0x111122, 0.4));
+    const sunLight = new THREE.PointLight(0xfff5cc, 2.5, 400);
+    sunLight.castShadow = true;
+    solarScene.add(sunLight);
+
+    // Fondo estrellado
+    const starsGeo = new THREE.BufferGeometry();
+    const sv = [];
+    for(let i=0;i<3000;i++){
+      sv.push((Math.random()-0.5)*600,(Math.random()-0.5)*600,(Math.random()-0.5)*600);
+    }
+    starsGeo.setAttribute("position", new THREE.Float32BufferAttribute(sv,3));
+    solarScene.add(new THREE.Points(starsGeo, new THREE.PointsMaterial({color:0xffffff,size:0.5,sizeAttenuation:true})));
+
+    // SOL
+    const sunGeo = new THREE.SphereGeometry(5.2,64,64);
+    const sunMat = new THREE.MeshPhongMaterial({
+      color:0xffcc33, emissive:0xff8800, emissiveIntensity:1, shininess:5
+    });
+    const sun = new THREE.Mesh(sunGeo, sunMat);
+    solarScene.add(sun);
+
+    // Corona del sol — varias capas
+    [6.2,7.0,8.5].forEach((r,i)=>{
+      const gGeo = new THREE.SphereGeometry(r,32,32);
+      const gMat = new THREE.MeshBasicMaterial({
+        color:[0xffaa33,0xff6600,0xff3300][i],
+        transparent:true, opacity:[0.2,0.1,0.04][i],
+        blending:THREE.AdditiveBlending, depthWrite:false
+      });
+      solarScene.add(new THREE.Mesh(gGeo,gMat));
+    });
+
+    // PLANETAS DATA — mejorado con colores realistas y emissive
+    const pData = [
+      {name:"Mercurio", emoji:"☿", size:0.7, dist:8,   color:0x9a9a9a, emissive:0x111111, speed:0.020, tilt:0},
+      {name:"Venus",    emoji:"♀", size:1.2, dist:11,  color:0xe8c878, emissive:0x332200, speed:0.013, tilt:177},
+      {name:"Tierra",   emoji:"🌍",size:1.4, dist:14.5,color:0x2255aa, emissive:0x001133, speed:0.009, tilt:23, hasMoon:true},
+      {name:"Marte",    emoji:"♂", size:0.9, dist:18,  color:0xc14010, emissive:0x220500, speed:0.007, tilt:25},
+      {name:"Júpiter",  emoji:"♃", size:3.0, dist:24,  color:0xc89050, emissive:0x110500, speed:0.003, tilt:3, banded:true},
+    ];
+
+    planetsArr = [];
+
+    pData.forEach((d,i)=>{
+      const geo = new THREE.SphereGeometry(d.size,48,48);
+
+      let mat;
+      if(d.banded){
+        // Júpiter — shader de bandas simulado con color alternado
+        mat = new THREE.MeshPhongMaterial({color:d.color, emissive:d.emissive, shininess:4});
+      } else {
+        mat = new THREE.MeshPhongMaterial({color:d.color, emissive:d.emissive, shininess:12});
+      }
+
+      const planet = new THREE.Mesh(geo, mat);
+      planet.castShadow = true;
+      planet.receiveShadow = true;
+      planet.rotation.z = (d.tilt||0) * Math.PI/180;
+
+      // Pivot para órbita
+      const pivot = new THREE.Object3D();
+      pivot.add(planet);
+      planet.position.x = d.dist;
+      solarScene.add(pivot);
+
+      // Órbita visual
+      const orbitGeo = new THREE.RingGeometry(d.dist-0.05, d.dist+0.05, 128);
+      const orbitMat = new THREE.MeshBasicMaterial({
+        color:0x6644aa, transparent:true, opacity:0.18, side:THREE.DoubleSide
+      });
+      const orbit = new THREE.Mesh(orbitGeo, orbitMat);
+      orbit.rotation.x = Math.PI/2;
+      solarScene.add(orbit);
+
+      // Luna de la Tierra
+      let moon = null;
+      if(d.hasMoon){
+        const mGeo = new THREE.SphereGeometry(0.35,16,16);
+        const mMat = new THREE.MeshPhongMaterial({color:0xbbbbbb, emissive:0x111111});
+        moon = new THREE.Mesh(mGeo,mMat);
+        planet.add(moon);
+        moon.position.x = 2.2;
+      }
+
+      // Anillos de Júpiter (fajas simuladas)
+      if(d.banded){
+        const bandColors = [0xc89050,0xa07030,0xd4a860,0x886020,0xc08840];
+        for(let b=0;b<5;b++){
+          const bGeo = new THREE.CylinderGeometry(d.size,d.size,d.size*0.4-b*0.06,32,1,true);
+          const bMat = new THREE.MeshPhongMaterial({
+            color:bandColors[b], transparent:true, opacity:0.7,
+            side:THREE.DoubleSide
+          });
+          const band = new THREE.Mesh(bGeo,bMat);
+          band.position.y = (b-2)*d.size*0.38;
+          planet.add(band);
+        }
+      }
+
+      planetsArr.push({
+        pivot, planet, moon,
+        angle: i*1.3,
+        speed: d.speed,
+        dist: d.dist,
+        name: d.name,
+        emoji: d.emoji,
+        moonAngle: 0
+      });
+    });
+
+    // Raycaster para hover
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    const infoEl = document.getElementById("planet-info-text");
+    canvas.addEventListener("mousemove", e=>{
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = ((e.clientX-rect.left)/canvas.width)*2-1;
+      mouse.y = -((e.clientY-rect.top)/canvas.height)*2+1;
+      raycaster.setFromCamera(mouse, solarCamera);
+      const meshes = planetsArr.map(p=>p.planet);
+      const hits = raycaster.intersectObjects(meshes);
+      if(hits.length>0){
+        const idx = meshes.indexOf(hits[0].object);
+        if(idx>=0 && infoEl){
+          infoEl.textContent = planetsArr[idx].emoji+" "+planetsArr[idx].name;
+          infoEl.style.opacity="1";
+        }
+      } else if(infoEl){
+        infoEl.style.opacity="0";
+      }
+    });
+
+    // Drag & zoom
+    canvas.addEventListener("mousedown",e=>{isDragging=true;lastX=e.clientX;lastY=e.clientY;rotSpeedX=0;rotSpeedY=0;canvas.style.cursor="grabbing"});
+    window.addEventListener("mouseup",()=>{isDragging=false;canvas.style.cursor="grab"});
+    window.addEventListener("mousemove",e=>{
+      if(!isDragging)return;
+      rotSpeedY=(e.clientX-lastX)*0.006; rotSpeedX=(e.clientY-lastY)*0.004;
+      lastX=e.clientX; lastY=e.clientY;
+    });
+    canvas.addEventListener("wheel",e=>{
+      e.preventDefault();
+      baseZoom=Math.max(10,Math.min(60,baseZoom+e.deltaY*0.04));
+      solarCamera.position.setLength(Math.sqrt(solarCamera.position.x**2+solarCamera.position.y**2+baseZoom**2));
+    },{passive:false});
+    canvas.addEventListener("touchstart",e=>{isDragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY},{passive:true});
+    window.addEventListener("touchend",()=>isDragging=false);
+    window.addEventListener("touchmove",e=>{
+      if(!isDragging)return;
+      rotSpeedY=(e.touches[0].clientX-lastX)*0.006;
+      rotSpeedX=(e.touches[0].clientY-lastY)*0.004;
+      lastX=e.touches[0].clientX; lastY=e.touches[0].clientY;
+    },{passive:true});
+
+    // Resize
+    window.addEventListener("resize",()=>{
+      const sz=Math.min(window.innerWidth*0.92,680);
+      canvas.width=sz; canvas.height=sz;
+      solarRenderer.setSize(sz,sz);
+    });
+
+    // Animate
+    function animate(){
+      requestAnimationFrame(animate);
+      if(!paused){
+        // Planetas
+        planetsArr.forEach(p=>{
+          p.angle += p.speed;
+          p.pivot.rotation.y = p.angle;
+          p.planet.rotation.y += 0.006;
+          if(p.moon){
+            p.moonAngle += 0.03;
+            p.moon.position.x = Math.cos(p.moonAngle)*2.2;
+            p.moon.position.z = Math.sin(p.moonAngle)*2.2;
+          }
+        });
+        // Sol pulso
+        sun.rotation.y += 0.001;
+      }
+      // Cámara inercia
+      if(!isDragging){
+        rotSpeedX*=0.95; rotSpeedY*=0.95;
+      }
+      solarCamera.position.applyQuaternion(
+        new THREE.Quaternion().setFromEuler(
+          new THREE.Euler(rotSpeedX*0.04, rotSpeedY*0.04, 0)
+        )
+      );
+      solarCamera.lookAt(0,0,0);
+      solarRenderer.render(solarScene, solarCamera);
+    }
+    animate();
+  }
+
+  // Reemplazar el viejo globo 2D — ignorar si existe
+  const oldCanvas = document.getElementById("planet-canvas");
+  if(oldCanvas) return;
+})();
+
+// ══ VIEJO GLOBO 2D (desactivado) ══
+(function(){
+  const canvas = document.getElementById("planet-canvas");
+  if(!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  const cx = W/2, cy = H/2;
+
+  const PLANETS = [
+    {
+      name:"Tierra", emoji:"🌍",
+      color:"#1a6b3c", color2:"#2980b9", color3:"#27ae60",
+      hasAtmo:true, atmoColor:"rgba(100,180,255,0.18)",
+      hasClouds:true, hasRings:false,
+      continents:[
+        {lat:20,lon:-100,w:40,h:25},{lat:45,lon:10,w:50,h:30},
+        {lat:-20,lon:130,w:35,h:20},{lat:-30,lon:20,w:25,h:35},
+        {lat:60,lon:100,w:55,h:25},{lat:10,lon:80,w:30,h:25},
+      ]
+    },
+    {
+      name:"Marte", emoji:"🔴",
+      color:"#8B3A2A", color2:"#A0522D", color3:"#CD5C5C",
+      hasAtmo:true, atmoColor:"rgba(255,150,100,0.12)",
+      hasClouds:false, hasRings:false,
+      continents:[
+        {lat:0,lon:0,w:60,h:20},{lat:30,lon:120,w:40,h:15},
+        {lat:-20,lon:-80,w:35,h:25}
+      ]
+    },
+    {
+      name:"Júpiter", emoji:"🪐",
+      color:"#C88B3A", color2:"#D4A574", color3:"#8B6914",
+      hasAtmo:true, atmoColor:"rgba(200,150,80,0.15)",
+      hasClouds:false, hasRings:false, isBanded:true,
+      continents:[]
+    },
+    {
+      name:"Saturno", emoji:"💛",
+      color:"#C8B45A", color2:"#D4C274", color3:"#B8A040",
+      hasAtmo:true, atmoColor:"rgba(220,200,100,0.12)",
+      hasClouds:false, hasRings:true, isBanded:true,
+      continents:[]
+    },
+    {
+      name:"Neptuno", emoji:"🔵",
+      color:"#1a2f8a", color2:"#2345c8", color3:"#3060d0",
+      hasAtmo:true, atmoColor:"rgba(80,120,255,0.2)",
+      hasClouds:false, hasRings:false, isBanded:true,
+      continents:[]
+    },
+    {
+      name:"Venus", emoji:"🌕",
+      color:"#c8a84b", color2:"#d4b85a", color3:"#b8983a",
+      hasAtmo:true, atmoColor:"rgba(255,220,100,0.25)",
+      hasClouds:true, hasRings:false,
+      continents:[]
+    },
+    {
+      name:"Luna", emoji:"🌙",
+      color:"#888", color2:"#aaa", color3:"#666",
+      hasAtmo:false, hasClouds:false, hasRings:false,
+      continents:[
+        {lat:20,lon:30,w:15,h:12,crater:true},
+        {lat:-30,lon:-60,w:20,h:18,crater:true},
+        {lat:50,lon:120,w:12,h:10,crater:true},
+      ]
+    },
+  ];
+
+  let currentPlanet = 0;
+  let rotX = 0.3, rotY = 0;
+  let isDragging = false, lastX, lastY;
+  let velX = 0, velY = 0.003;
+  let zoom = 1;
+  let cloudAngle = 0;
+
+  // Crear selector
+  const sel = document.getElementById("planet-selector");
+  PLANETS.forEach((p,i)=>{
+    const btn = document.createElement("button");
+    btn.innerHTML = `${p.emoji} ${p.name}`;
+    btn.style.cssText=`
+      background:${i===0?"rgba(153,102,204,.25)":"rgba(255,255,255,.05)"};
+      border:1px solid ${i===0?"rgba(153,102,204,.5)":"rgba(255,255,255,.1)"};
+      border-radius:100px;padding:8px 18px;
+      font-family:"DM Sans",sans-serif;font-size:.8rem;font-weight:600;
+      color:${i===0?"#c8b4ff":"#7878a0"};cursor:pointer;
+      transition:all .2s;
+    `;
+    btn.addEventListener("click",()=>{
+      currentPlanet=i;
+      rotX=0.3; rotY=0; velX=0; velY=0.003; zoom=1;
+      document.querySelectorAll("#planet-selector button").forEach((b,j)=>{
+        b.style.background=j===i?"rgba(153,102,204,.25)":"rgba(255,255,255,.05)";
+        b.style.borderColor=j===i?"rgba(153,102,204,.5)":"rgba(255,255,255,.1)";
+        b.style.color=j===i?"#c8b4ff":"#7878a0";
+      });
+    });
+    sel.appendChild(btn);
+  });
+
+  // Label
+  const label = document.getElementById("planet-label");
+
+  // Mouse/touch
+  canvas.addEventListener("mousedown", e=>{isDragging=true;lastX=e.clientX;lastY=e.clientY;velX=0;velY=0;canvas.style.cursor="grabbing"});
+  window.addEventListener("mouseup",()=>{isDragging=false;canvas.style.cursor="grab"});
+  window.addEventListener("mousemove",e=>{
+    if(!isDragging)return;
+    const dx=e.clientX-lastX, dy=e.clientY-lastY;
+    velY=dx*0.005; velX=dy*0.005;
+    rotY+=velY; rotX+=velX;
+    lastX=e.clientX; lastY=e.clientY;
+  });
+  canvas.addEventListener("wheel",e=>{
+    e.preventDefault();
+    zoom=Math.max(0.5,Math.min(1.8,zoom-e.deltaY*0.001));
+  },{passive:false});
+  canvas.addEventListener("touchstart",e=>{isDragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;velX=0;velY=0},{passive:true});
+  window.addEventListener("touchend",()=>isDragging=false);
+  window.addEventListener("touchmove",e=>{
+    if(!isDragging)return;
+    const dx=e.touches[0].clientX-lastX, dy=e.touches[0].clientY-lastY;
+    velY=dx*0.005; velX=dy*0.005;
+    rotY+=velY; rotX+=velX;
+    lastX=e.touches[0].clientX; lastY=e.touches[0].clientY;
+  },{passive:true});
+
+  function latLonTo3D(lat,lon){
+    const phi=(90-lat)*Math.PI/180;
+    const theta=(lon+180)*Math.PI/180;
+    return {
+      x:Math.sin(phi)*Math.cos(theta),
+      y:Math.cos(phi),
+      z:Math.sin(phi)*Math.sin(theta)
+    };
+  }
+
+  function rotate3D(v, rx, ry){
+    // Rotar Y
+    let x=v.x*Math.cos(ry)-v.z*Math.sin(ry);
+    let z=v.x*Math.sin(ry)+v.z*Math.cos(ry);
+    let y=v.y;
+    // Rotar X
+    let y2=y*Math.cos(rx)-z*Math.sin(rx);
+    let z2=y*Math.sin(rx)+z*Math.cos(rx);
+    return {x,y:y2,z:z2};
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const p = PLANETS[currentPlanet];
+    const R = 160*zoom;
+
+    // Actualizar label
+    if(label) label.textContent = p.emoji+" "+p.name;
+
+    // Inercia
+    if(!isDragging){
+      rotY += velY;
+      rotX += velX * 0.98;
+      velX *= 0.97;
+      velY = velY*0.997 + 0.003;
+    }
+    cloudAngle += 0.002;
+
+    // Sombra exterior
+    const shadow=ctx.createRadialGradient(cx+R*0.15,cy+R*0.1,0,cx,cy,R*1.3);
+    shadow.addColorStop(0,"transparent");
+    shadow.addColorStop(0.7,"transparent");
+    shadow.addColorStop(1,"rgba(0,0,0,0.5)");
+    ctx.fillStyle=shadow;
+    ctx.beginPath();
+    ctx.arc(cx,cy,R*1.5,0,Math.PI*2);
+    ctx.fill();
+
+    // Atmósfera
+    if(p.hasAtmo){
+      const atmo=ctx.createRadialGradient(cx,cy,R*0.9,cx,cy,R*1.15);
+      atmo.addColorStop(0,p.atmoColor);
+      atmo.addColorStop(1,"transparent");
+      ctx.fillStyle=atmo;
+      ctx.beginPath();
+      ctx.arc(cx,cy,R*1.15,0,Math.PI*2);
+      ctx.fill();
+    }
+
+    // Anillos (antes del planeta para que quede detrás)
+    if(p.hasRings){
+      ctx.save();
+      ctx.translate(cx,cy);
+      ctx.scale(1,0.28);
+      ctx.strokeStyle="rgba(200,180,80,0.5)";
+      ctx.lineWidth=8; ctx.beginPath();
+      ctx.arc(0,0,R*1.7,0,Math.PI*2); ctx.stroke();
+      ctx.lineWidth=4; ctx.strokeStyle="rgba(200,180,80,0.3)";
+      ctx.beginPath(); ctx.arc(0,0,R*2.0,0,Math.PI*2); ctx.stroke();
+      ctx.lineWidth=2; ctx.strokeStyle="rgba(200,180,80,0.15)";
+      ctx.beginPath(); ctx.arc(0,0,R*2.3,0,Math.PI*2); ctx.stroke();
+      ctx.restore();
+    }
+
+    // Planeta base
+    const gBase=ctx.createRadialGradient(cx-R*0.3,cy-R*0.3,0,cx,cy,R);
+    if(p.isBanded){
+      // Júpiter/Saturno/Neptuno — bandas
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx,cy,R,0,Math.PI*2);
+      ctx.clip();
+      const bands=p.name==="Neptuno"?8:10;
+      for(let i=0;i<bands;i++){
+        const y0=cy-R+i*(R*2/bands);
+        const y1=y0+R*2/bands;
+        const t=i/bands;
+        const col=i%2===0?p.color:p.color2;
+        ctx.fillStyle=col;
+        ctx.fillRect(cx-R,y0,R*2,y1-y0);
+      }
+      // Sombra esférica
+      const gs=ctx.createRadialGradient(cx-R*0.2,cy-R*0.2,0,cx+R*0.2,cy+R*0.2,R*1.2);
+      gs.addColorStop(0,"rgba(255,255,255,0.08)");
+      gs.addColorStop(0.5,"transparent");
+      gs.addColorStop(1,"rgba(0,0,0,0.5)");
+      ctx.fillStyle=gs;
+      ctx.fillRect(cx-R,cy-R,R*2,R*2);
+      ctx.restore();
+    } else {
+      gBase.addColorStop(0,p.color2 || "#fff");
+      gBase.addColorStop(0.5,p.color);
+      gBase.addColorStop(1,p.color3 || "#000");
+      ctx.fillStyle=gBase;
+      ctx.beginPath();
+      ctx.arc(cx,cy,R,0,Math.PI*2);
+      ctx.fill();
+    }
+
+    // Continentes / cráteres
+    if(p.continents && p.continents.length>0){
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx,cy,R,0,Math.PI*2);
+      ctx.clip();
+      p.continents.forEach(cont=>{
+        const v=latLonTo3D(cont.lat,cont.lon);
+        const rv=rotate3D(v,rotX,rotY);
+        if(rv.z<-0.1)return;
+        const px2=cx+rv.x*R;
+        const py2=cy-rv.y*R;
+        const scale=Math.max(0,rv.z);
+        if(cont.crater){
+          // Luna — cráteres
+          ctx.beginPath();
+          ctx.arc(px2,py2,cont.w*0.08*R*scale,0,Math.PI*2);
+          ctx.fillStyle="rgba(0,0,0,0.3)";
+          ctx.fill();
+          ctx.strokeStyle="rgba(255,255,255,0.15)";
+          ctx.lineWidth=1;
+          ctx.stroke();
+        } else {
+          // Continentes
+          ctx.beginPath();
+          const rx2=cont.w*0.012*R*scale;
+          const ry2=cont.h*0.012*R*scale;
+          ctx.ellipse(px2,py2,rx2,ry2,rv.x*0.5,0,Math.PI*2);
+          const gc=ctx.createRadialGradient(px2,py2,0,px2,py2,rx2);
+          gc.addColorStop(0,p.color3+"dd");
+          gc.addColorStop(1,p.color3+"88");
+          ctx.fillStyle=gc;
+          ctx.fill();
+        }
+      });
+      ctx.restore();
+    }
+
+    // Nubes (Tierra y Venus)
+    if(p.hasClouds){
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx,cy,R,0,Math.PI*2);
+      ctx.clip();
+      const clouds=[
+        {lat:30,lon:20},{lat:-20,lon:80},{lat:50,lon:-60},
+        {lat:10,lon:160},{lat:-40,lon:-120},{lat:60,lon:40}
+      ];
+      clouds.forEach(cl=>{
+        const v=latLonTo3D(cl.lat,cl.lon+cloudAngle*50);
+        const rv=rotate3D(v,rotX,rotY);
+        if(rv.z<0)return;
+        const px2=cx+rv.x*R;
+        const py2=cy-rv.y*R;
+        ctx.beginPath();
+        ctx.ellipse(px2,py2,R*0.12*rv.z,R*0.06*rv.z,0,0,Math.PI*2);
+        ctx.fillStyle="rgba(255,255,255,0.55)";
+        ctx.fill();
+      });
+      ctx.restore();
+    }
+
+    // Brillo especular
+    const spec=ctx.createRadialGradient(cx-R*0.35,cy-R*0.35,0,cx-R*0.15,cy-R*0.15,R*0.6);
+    spec.addColorStop(0,"rgba(255,255,255,0.22)");
+    spec.addColorStop(0.3,"rgba(255,255,255,0.06)");
+    spec.addColorStop(1,"transparent");
+    ctx.fillStyle=spec;
+    ctx.beginPath();
+    ctx.arc(cx,cy,R,0,Math.PI*2);
+    ctx.fill();
+
+    // Sombra lado oscuro
+    const dark=ctx.createRadialGradient(cx+R*0.5,cy,0,cx+R*0.3,cy,R*1.1);
+    dark.addColorStop(0,"rgba(0,0,0,0.55)");
+    dark.addColorStop(0.5,"rgba(0,0,0,0.25)");
+    dark.addColorStop(1,"transparent");
+    ctx.fillStyle=dark;
+    ctx.beginPath();
+    ctx.arc(cx,cy,R,0,Math.PI*2);
+    ctx.fill();
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>
