@@ -1,504 +1,1005 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mensajero Rural - Comunicación para el Campo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mensajero Rural — Tu campo por WhatsApp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --tierra: #2C1810;
+  --barro: #5C3D2E;
+  --campo: #1A2E1A;
+  --pasto: #2D4A1E;
+  --verde: #4A7C3F;
+  --verde-c: #6BAF5A;
+  --verde-bright: #8CC57A;
+  --crema: #F5EDD8;
+  --crema-d: #E8D9BC;
+  --trigo: #C8A96E;
+  --trigo-d: #A08048;
+  --blanco: #FDFAF4;
+  --gris: #8A8070;
+}
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(to bottom, #fef9f3 0%, #e8f5e9 50%, #c8e6c9 100%);
-            color: #2d5016;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 10;
-        }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--blanco);
+  color: var(--tierra);
+  overflow-x: hidden;
+}
 
-        /* Floating cows */
-        .cow {
-            position: fixed;
-            font-size: 4rem;
-            opacity: 0.15;
-            pointer-events: none;
-            animation: float 6s infinite ease-in-out;
-        }
+/* ══ NAVBAR ══ */
+.nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: rgba(253,250,244,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(44,24,16,.08);
+  padding: 16px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Playfair Display', serif;
+  font-size: 24px; font-weight: 900;
+  color: var(--tierra);
+  text-decoration: none;
+}
+.nav-logo-icon {
+  width: 36px; height: 36px;
+  background: var(--verde);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.nav-links {
+  display: flex; gap: 32px; list-style: none;
+}
+.nav-links a {
+  font-size: 14px; font-weight: 500;
+  color: var(--barro); text-decoration: none;
+  letter-spacing: .3px;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--verde); }
+.nav-cta {
+  background: var(--verde);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 100px;
+  font-size: 14px; font-weight: 600;
+  text-decoration: none;
+  display: flex; align-items: center; gap: 8px;
+  transition: background .2s, transform .2s;
+  letter-spacing: .3px;
+}
+.nav-cta:hover { background: var(--pasto); transform: translateY(-1px); }
+@media(max-width:768px) { .nav-links { display: none; } .nav { padding: 14px 20px; } }
 
-        .cow:nth-child(1) {
-            top: 10%;
-            right: 5%;
-            animation-delay: 0s;
-            font-size: 3rem;
-        }
+/* ══ HERO ══ */
+.hero {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(74,124,63,.12) 0%, transparent 60%),
+    linear-gradient(180deg, #1A2E1A 0%, #2D4A1E 40%, #3A5E2A 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+  position: relative; overflow: hidden;
+}
 
-        .cow:nth-child(2) {
-            bottom: 20%;
-            left: 8%;
-            animation-delay: 2s;
-            font-size: 3.5rem;
-        }
+/* Textura de fondo */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
 
-        .cow:nth-child(3) {
-            top: 60%;
-            right: 10%;
-            animation-delay: 4s;
-            font-size: 2.5rem;
-        }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 100px;
+  padding: 8px 18px;
+  font-size: 13px; font-weight: 500;
+  color: var(--verde-bright);
+  letter-spacing: .5px;
+  margin-bottom: 32px;
+  animation: fadeDown .7s ease both;
+}
+.hero-badge span { color: rgba(255,255,255,.6); }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(30px); }
-        }
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 7vw, 88px);
+  font-weight: 900;
+  color: var(--crema);
+  line-height: 1.05;
+  letter-spacing: -1px;
+  margin-bottom: 28px;
+  animation: fadeUp .8s ease .1s both;
+  max-width: 800px;
+}
+.hero h1 em {
+  color: var(--verde-bright);
+  font-style: italic;
+}
+.hero-sub {
+  font-size: clamp(17px, 2.5vw, 22px);
+  color: rgba(245,237,216,.7);
+  max-width: 560px;
+  line-height: 1.65;
+  margin-bottom: 48px;
+  animation: fadeUp .8s ease .2s both;
+}
 
-        header {
-            padding: 40px 0;
-            text-align: center;
-        }
+.hero-btns {
+  display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+  animation: fadeUp .8s ease .3s both;
+  margin-bottom: 64px;
+}
+.btn-primary {
+  background: var(--verde-bright);
+  color: var(--tierra);
+  padding: 16px 36px;
+  border-radius: 100px;
+  font-size: 16px; font-weight: 700;
+  text-decoration: none;
+  display: flex; align-items: center; gap: 10px;
+  transition: all .25s cubic-bezier(.34,1.56,.64,1);
+  letter-spacing: .3px;
+}
+.btn-primary:hover { transform: translateY(-3px); background: #9ADB85; box-shadow: 0 20px 40px rgba(107,175,90,.3); }
+.btn-secondary {
+  background: transparent;
+  color: var(--crema);
+  padding: 16px 36px;
+  border-radius: 100px;
+  border: 1px solid rgba(245,237,216,.25);
+  font-size: 16px; font-weight: 500;
+  text-decoration: none;
+  transition: all .2s;
+}
+.btn-secondary:hover { background: rgba(245,237,216,.08); border-color: rgba(245,237,216,.4); }
 
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            color: #1b5e20;
-            margin-bottom: 15px;
-            letter-spacing: -0.5px;
-        }
+/* Chat demo */
+.hero-chat {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 20px;
+  padding: 24px;
+  max-width: 420px;
+  width: 100%;
+  animation: fadeUp .8s ease .4s both;
+  text-align: left;
+}
+.chat-header {
+  display: flex; align-items: center; gap: 10px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  margin-bottom: 16px;
+}
+.chat-avatar {
+  width: 38px; height: 38px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.chat-name { font-size: 14px; font-weight: 600; color: var(--crema); }
+.chat-status { font-size: 12px; color: var(--verde-bright); }
 
-        .tagline {
-            font-size: 1.2rem;
-            color: #558b2f;
-            font-weight: 300;
-        }
+.chat-msgs { display: flex; flex-direction: column; gap: 8px; }
+.msg {
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  max-width: 85%;
+}
+.msg-user {
+  background: #25D366;
+  color: #fff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+.msg-bot {
+  background: rgba(255,255,255,.1);
+  color: var(--crema);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+.msg-time {
+  font-size: 10px; color: rgba(255,255,255,.4);
+  text-align: right; margin-top: 4px;
+}
 
-        main {
-            padding: 60px 0;
-        }
+/* ══ SOCIAL PROOF ══ */
+.proof-bar {
+  background: var(--crema-d);
+  border-top: 1px solid rgba(44,24,16,.08);
+  border-bottom: 1px solid rgba(44,24,16,.08);
+  padding: 20px 40px;
+  display: flex; align-items: center; justify-content: center; gap: 48px;
+  flex-wrap: wrap;
+}
+.proof-item {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 14px; color: var(--barro);
+}
+.proof-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; font-weight: 700;
+  color: var(--verde);
+}
 
-        .hero {
-            background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
-            border-radius: 20px;
-            padding: 60px 40px;
-            text-align: center;
-            margin-bottom: 80px;
-            box-shadow: 0 10px 40px rgba(27, 94, 32, 0.1);
-            border: 2px solid rgba(139, 195, 74, 0.3);
-        }
+/* ══ SECCIÓN GENÉRICA ══ */
+.sec { padding: 96px 40px; }
+.sec-inner { max-width: 1100px; margin: 0 auto; }
+.sec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--verde);
+  margin-bottom: 16px;
+}
+.sec-titulo {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--tierra);
+  margin-bottom: 20px;
+}
+.sec-desc {
+  font-size: 18px;
+  color: var(--barro);
+  line-height: 1.7;
+  max-width: 560px;
+}
 
-        .hero h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            color: #1b5e20;
-            margin-bottom: 20px;
-        }
+/* ══ CÓMO FUNCIONA ══ */
+.pasos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: rgba(44,24,16,.06);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 64px;
+}
+.paso {
+  background: var(--blanco);
+  padding: 48px 40px;
+  position: relative;
+  transition: background .2s;
+}
+.paso:hover { background: var(--crema); }
+.paso-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 3px; color: var(--verde);
+  margin-bottom: 24px;
+}
+.paso-icon {
+  font-size: 48px; margin-bottom: 20px; display: block;
+}
+.paso-titulo {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px; font-weight: 700;
+  color: var(--tierra);
+  margin-bottom: 12px;
+}
+.paso-desc {
+  font-size: 16px; color: var(--barro);
+  line-height: 1.65;
+}
+@media(max-width:768px) { .pasos { grid-template-columns: 1fr; } }
 
-        .hero p {
-            font-size: 1.1rem;
-            color: #2d5016;
-            line-height: 1.8;
-            max-width: 700px;
-            margin: 0 auto 30px;
-        }
+/* ══ EJEMPLOS ══ */
+.ej-sec { background: var(--campo); }
+.ej-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 48px;
+}
+.ej-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 14px;
+  padding: 20px 22px;
+  display: flex; align-items: center; gap: 14px;
+  font-size: 15px;
+  color: var(--crema);
+  transition: all .2s;
+}
+.ej-card:hover {
+  background: rgba(107,175,90,.15);
+  border-color: rgba(107,175,90,.3);
+  transform: translateY(-2px);
+}
+.ej-emoji { font-size: 28px; flex-shrink: 0; }
 
-        .cta-button {
-            display: inline-block;
-            padding: 16px 40px;
-            background: linear-gradient(135deg, #558b2f 0%, #7cb342 100%);
-            color: #fef9f3;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(85, 139, 47, 0.3);
-            border: none;
-            cursor: pointer;
-        }
+/* ══ BENEFICIOS ══ */
+.ben-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 64px;
+}
+.ben-card {
+  border: 1px solid rgba(44,24,16,.1);
+  border-radius: 20px;
+  padding: 40px;
+  transition: all .25s;
+  position: relative; overflow: hidden;
+}
+.ben-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--verde), var(--verde-bright));
+  opacity: 0; transition: opacity .2s;
+}
+.ben-card:hover { border-color: rgba(74,124,63,.2); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(44,24,16,.06); }
+.ben-card:hover::before { opacity: 1; }
+.ben-icon {
+  width: 52px; height: 52px;
+  background: rgba(74,124,63,.1);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.ben-titulo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--tierra); margin-bottom: 10px;
+}
+.ben-desc { font-size: 15px; color: var(--barro); line-height: 1.65; }
+@media(max-width:640px) { .ben-grid { grid-template-columns: 1fr; } }
 
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(85, 139, 47, 0.4);
-        }
+/* ══ PARA QUIÉN ══ */
+.pq-sec { background: var(--crema); }
+.pq-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 48px;
+}
+.pq-card {
+  background: var(--blanco);
+  border: 1px solid rgba(44,24,16,.08);
+  border-radius: 16px;
+  padding: 28px 24px;
+  display: flex; align-items: center; gap: 14px;
+  font-size: 16px; font-weight: 500;
+  color: var(--tierra);
+  transition: all .2s;
+}
+.pq-card:hover { background: var(--verde); color: #fff; border-color: var(--verde); }
+.pq-card:hover .pq-dot { background: rgba(255,255,255,.5); }
+.pq-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--verde-bright); flex-shrink: 0;
+  transition: background .2s;
+}
+@media(max-width:640px) { .pq-grid { grid-template-columns: 1fr; } }
 
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 80px;
-        }
+/* ══ TESTIMONIOS ══ */
+.testi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 64px;
+}
+.testi-card {
+  background: var(--crema);
+  border: 1px solid rgba(44,24,16,.08);
+  border-radius: 20px;
+  padding: 36px;
+}
+.testi-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px; font-style: italic;
+  color: var(--tierra);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.testi-quote::before { content: '"'; color: var(--verde); }
+.testi-quote::after { content: '"'; color: var(--verde); }
+.testi-autor {
+  display: flex; align-items: center; gap: 12px;
+}
+.testi-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--verde);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  color: #fff; font-weight: 700;
+  font-family: 'Playfair Display', serif;
+}
+.testi-nombre { font-weight: 600; font-size: 15px; color: var(--tierra); }
+.testi-lugar { font-size: 13px; color: var(--gris); }
+@media(max-width:640px) { .testi-grid { grid-template-columns: 1fr; } }
 
-        .feature-card {
-            background: rgba(255, 255, 255, 0.8);
-            border: 2px solid #c8e6c9;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(27, 94, 32, 0.08);
-        }
+/* ══ PRECIOS ══ */
+.precio-sec { background: var(--campo); }
+.precio-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 28px;
+  padding: 56px;
+  max-width: 520px;
+  margin: 64px auto 0;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.precio-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--verde), var(--verde-bright));
+}
+.precio-badge-gratis {
+  display: inline-block;
+  background: rgba(107,175,90,.2);
+  border: 1px solid rgba(107,175,90,.3);
+  color: var(--verde-bright);
+  font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  padding: 6px 16px; border-radius: 100px;
+  margin-bottom: 32px;
+}
+.precio-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 72px; font-weight: 900;
+  color: var(--crema); line-height: 1;
+}
+.precio-unit { font-size: 20px; color: rgba(245,237,216,.5); margin-bottom: 8px; }
+.precio-desc { font-size: 15px; color: rgba(245,237,216,.6); margin-bottom: 40px; }
+.precio-features { text-align: left; margin-bottom: 40px; }
+.precio-feature {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 15px; color: var(--crema-d);
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.precio-feature:last-child { border-bottom: none; }
+.precio-check { color: var(--verde-bright); font-size: 16px; }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(27, 94, 32, 0.15);
-            border-color: #a5d6a7;
-        }
+/* ══ FAQ ══ */
+.faq-list { margin-top: 56px; max-width: 720px; }
+.faq-item {
+  border-bottom: 1px solid rgba(44,24,16,.1);
+}
+.faq-q {
+  width: 100%; text-align: left;
+  background: none; border: none; cursor: pointer;
+  padding: 24px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 17px; font-weight: 600;
+  color: var(--tierra);
+}
+.faq-q:hover { color: var(--verde); }
+.faq-icon { font-size: 20px; transition: transform .2s; color: var(--verde); flex-shrink: 0; }
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-a {
+  font-size: 16px; color: var(--barro); line-height: 1.7;
+  max-height: 0; overflow: hidden;
+  transition: max-height .3s ease, padding .3s;
+}
+.faq-item.open .faq-a { max-height: 200px; padding-bottom: 20px; }
 
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-        }
+/* ══ CTA FINAL ══ */
+.cta-final {
+  background: linear-gradient(135deg, var(--pasto) 0%, var(--campo) 100%);
+  padding: 120px 40px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.cta-final::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(107,175,90,.15) 0%, transparent 70%);
+}
+.cta-final h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 900; color: var(--crema);
+  line-height: 1.1; margin-bottom: 20px;
+  position: relative;
+}
+.cta-final p {
+  font-size: 20px; color: rgba(245,237,216,.7);
+  margin-bottom: 48px; position: relative;
+}
 
-        .feature-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            color: #1b5e20;
-            margin-bottom: 12px;
-        }
+/* ══ FOOTER ══ */
+footer {
+  background: var(--tierra);
+  padding: 48px 40px;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 900;
+  color: var(--crema-d); margin-bottom: 8px;
+}
+.footer-sub { font-size: 13px; color: var(--gris); }
 
-        .feature-card p {
-            color: #558b2f;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
+/* ══ REVEAL ══ */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
 
-        .pricing {
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid #c8e6c9;
-            border-radius: 15px;
-            padding: 50px;
-            margin-bottom: 80px;
-            text-align: center;
-        }
+/* ══ ANIMATIONS ══ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-        .pricing h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            color: #1b5e20;
-            margin-bottom: 40px;
-        }
-
-        .price-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .price-card {
-            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
-            border: 2px solid #c8e6c9;
-            border-radius: 15px;
-            padding: 30px;
-            transition: all 0.3s ease;
-        }
-
-        .price-card:hover {
-            transform: scale(1.05);
-            border-color: #7cb342;
-            box-shadow: 0 8px 25px rgba(85, 139, 47, 0.2);
-        }
-
-        .price-card h3 {
-            font-size: 1.5rem;
-            color: #1b5e20;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .price-amount {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            color: #558b2f;
-            margin: 20px 0;
-            font-weight: 700;
-        }
-
-        .price-amount small {
-            font-size: 0.8rem;
-            color: #999;
-        }
-
-        .price-card p {
-            color: #2d5016;
-            margin: 15px 0;
-            line-height: 1.7;
-            font-size: 0.95rem;
-        }
-
-        .faq {
-            margin-bottom: 80px;
-        }
-
-        .faq h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            color: #1b5e20;
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .faq-item {
-            background: rgba(255, 255, 255, 0.8);
-            border: 2px solid #c8e6c9;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-
-        .faq-question {
-            padding: 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: linear-gradient(90deg, #f1f8e9 0%, #e8f5e9 100%);
-            transition: all 0.3s ease;
-            font-weight: 600;
-            color: #1b5e20;
-        }
-
-        .faq-question:hover {
-            background: linear-gradient(90deg, #e8f5e9 0%, #c8e6c9 100%);
-        }
-
-        .faq-icon {
-            font-size: 1.5rem;
-            transition: transform 0.3s ease;
-        }
-
-        .faq-item.active .faq-icon {
-            transform: rotate(180deg);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            padding: 0 20px;
-            background: rgba(255, 255, 255, 0.5);
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            padding: 20px;
-        }
-
-        .faq-answer p {
-            color: #2d5016;
-            line-height: 1.8;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            border-top: 2px solid #c8e6c9;
-            color: #558b2f;
-        }
-
-        .whatsapp-contact {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 30px;
-            background: #25d366;
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .whatsapp-contact:hover {
-            background: #1ea855;
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .hero {
-                padding: 40px 20px;
-            }
-
-            .hero h2 {
-                font-size: 1.8rem;
-            }
-
-            .pricing, .faq h2 {
-                font-size: 1.8rem;
-            }
-
-            .price-amount {
-                font-size: 1.8rem;
-            }
-
-            .cow {
-                font-size: 2rem !important;
-                opacity: 0.08;
-            }
-        }
-    </style>
+/* ══ WHATSAPP FLOAT ══ */
+.wsp-float {
+  position: fixed; bottom: 28px; right: 28px; z-index: 90;
+  width: 58px; height: 58px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  box-shadow: 0 8px 32px rgba(37,211,102,.4);
+  text-decoration: none;
+  animation: wsp-pulse 3s ease-in-out infinite;
+  transition: transform .2s;
+}
+.wsp-float:hover { transform: scale(1.1); }
+@keyframes wsp-pulse {
+  0%,100% { box-shadow: 0 8px 32px rgba(37,211,102,.4), 0 0 0 0 rgba(37,211,102,.3); }
+  50% { box-shadow: 0 8px 32px rgba(37,211,102,.4), 0 0 0 12px rgba(37,211,102,0); }
+}
+</style>
 </head>
 <body>
-    <div class="cow">🐄</div>
-    <div class="cow">🐄</div>
-    <div class="cow">🐄</div>
 
-    <div class="container">
-        <header>
-            <h1>Mensajero Rural</h1>
-            <p class="tagline">Conecta con el campo, sin barreras de distancia</p>
-        </header>
+<!-- NAVBAR -->
+<nav class="nav">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">🌾</div>
+    Mensajero Rural
+  </a>
+  <ul class="nav-links">
+    <li><a href="#como-funciona">Cómo funciona</a></li>
+    <li><a href="#ejemplos">Ejemplos</a></li>
+    <li><a href="#beneficios">Beneficios</a></li>
+    <li><a href="#precios">Precios</a></li>
+    <li><a href="#faq">Preguntas</a></li>
+  </ul>
+  <a href="#" class="nav-cta">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    Probar gratis
+  </a>
+</nav>
 
-        <main>
-            <section class="hero">
-                <h2>Mensajería para el campo argentino</h2>
-                <p>Envía mensajes, coordina trabajos y mantén la comunicación fluida en tu zona. Diseñado específicamente para chacareros, productores y gente del interior.</p>
-                <a href="https://wa.me/5493456461557" class="cta-button">Consultar disponibilidad</a>
-            </section>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <span>🌾</span>
+    Hecho para productores de Entre Ríos
+  </div>
 
-            <section class="features">
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>Fácil de usar</h3>
-                    <p>Interfaz simple y directa. No necesitas ser técnico para empezar a comunicarte.</p>
-                </div>
+  <h1>Tu campo,<br>gestionado con<br><em>un audio</em></h1>
+  <p class="hero-sub">
+    Olvidate del cuaderno y el Excel. Desde el tractor, el corral o la camioneta — mandás un audio por WhatsApp y todo queda registrado.
+  </p>
 
-                <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>Seguro y privado</h3>
-                    <p>Tus mensajes están encriptados. Solo tú y quién recibe pueden verlos.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Rápido y confiable</h3>
-                    <p>Entregas instantáneas. Funciona en zonas con conexión débil.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">💬</div>
-                    <h3>Grupos y coordinación</h3>
-                    <p>Crea grupos para coordinar con tu equipo de trabajo fácilmente.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🌐</div>
-                    <h3>Funciona en todos lados</h3>
-                    <p>Web, celular, tablet. Sincronizado en todos tus dispositivos.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">💰</div>
-                    <h3>Precio justo</h3>
-                    <p>Planes accesibles para el productor. Cancelá por mes o anual con descuento.</p>
-                </div>
-            </section>
-
-            <section class="pricing">
-                <h2>Planes que se ajustan a vos</h2>
-                <div class="price-container">
-                    <div class="price-card">
-                        <h3>Básico</h3>
-                        <div class="price-amount">$4.900<small>/mes</small></div>
-                        <p>✓ Mensajería ilimitada<br>✓ Hasta 5 chats<br>✓ Soporte por email</p>
-                        <button class="cta-button">Elegir plan</button>
-                    </div>
-
-                    <div class="price-card">
-                        <h3>Profesional</h3>
-                        <div class="price-amount">$9.900<small>/mes</small></div>
-                        <p>✓ Todo lo básico<br>✓ Grupos ilimitados<br>✓ Soporte WhatsApp<br>✓ Reportes básicos</p>
-                        <button class="cta-button">Elegir plan</button>
-                    </div>
-
-                    <div class="price-card">
-                        <h3>Empresarial</h3>
-                        <div class="price-amount">$19.900<small>/mes</small></div>
-                        <p>✓ Todo profesional<br>✓ Usuarios ilimitados<br>✓ API personalizada<br>✓ Soporte prioritario</p>
-                        <button class="cta-button">Elegir plan</button>
-                    </div>
-                </div>
-            </section>
-
-            <section class="faq">
-                <h2>Preguntas frecuentes</h2>
-
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
-                        <span>¿Qué es Mensajero Rural exactamente?</span>
-                        <span class="faq-icon">⌄</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Es una plataforma de mensajería especialmente diseñada para productores y trabajadores rurales. Te permite comunicarte con tu equipo, coordinadores y clientes sin depender de otros servicios que a veces fallan en zonas del interior.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
-                        <span>¿Qué ciudades cubre?</span>
-                        <span class="faq-icon">⌄</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Actualmente servimos toda la provincia de Entre Ríos, con especial enfoque en Chajarí, Concordia, Gualeguaychú, Concepción del Uruguay y otras localidades. Expandimos a otras provincias pronto.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
-                        <span>¿Necesito internet muy rápido?</span>
-                        <span class="faq-icon">⌄</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>No. Mensajero Rural está optimizado para funcionar incluso con conexiones débiles. Los mensajes se guardan localmente y se sincronizan cuando tengas conexión.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
-                        <span>¿Cuál es el período de prueba?</span>
-                        <span class="faq-icon">⌄</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Ofrecemos 14 días de prueba gratuita con todas las funciones. Sin necesidad de tarjeta de crédito. Después puedes elegir el plan que mejor se adapte a vos.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
-                        <span>¿Cómo empiezo?</span>
-                        <span class="faq-icon">⌄</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Es muy simple. Contactáme por WhatsApp, te envío un link de invitación, te registras en 2 minutos y listo. Ya puedes empezar a usar Mensajero Rural.</p>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <footer>
-            <p>&copy; 2024 Mensajero Rural. Comunicación para el campo argentino.</p>
-            <a href="https://wa.me/5493456461557" class="whatsapp-contact">Contactá por WhatsApp</a>
-        </footer>
+  <!-- Selector ciudad/estancia -->
+  <div class="hero-selector reveal" style="margin-bottom:32px;animation:fadeUp .8s ease .25s both">
+    <div style="
+      display:flex;align-items:center;gap:0;
+      background:rgba(255,255,255,.1);
+      border:1px solid rgba(255,255,255,.2);
+      border-radius:100px;
+      overflow:hidden;
+      max-width:480px;width:100%;
+    ">
+      <span style="padding:0 18px;font-size:20px;flex-shrink:0">📍</span>
+      <input
+        id="lugar-input"
+        type="text"
+        placeholder="Tu ciudad, estancia o zona..."
+        style="
+          flex:1;background:transparent;border:none;outline:none;
+          font-family:'DM Sans',sans-serif;font-size:15px;
+          color:#fff;padding:14px 0;
+          caret-color:var(--verde-bright);
+        "
+        list="lugares-sugeridos"
+        autocomplete="off"
+      >
+      <datalist id="lugares-sugeridos">
+        <option value="Chajarí">
+        <option value="Concordia">
+        <option value="Colón">
+        <option value="Federación">
+        <option value="Gualeguaychú">
+        <option value="Paraná">
+        <option value="Villaguay">
+        <option value="La Paz">
+        <option value="Federal">
+        <option value="Montiel">
+        <option value="Estancia La Esperanza">
+        <option value="Estancia Don Julio">
+        <option value="Campo Propio">
+      </datalist>
+      <button
+        onclick="seleccionarLugar()"
+        style="
+          background:var(--verde-bright);color:var(--tierra);
+          border:none;cursor:pointer;
+          padding:12px 22px;margin:4px;border-radius:100px;
+          font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;
+          transition:background .2s;white-space:nowrap;
+          letter-spacing:.3px;
+        "
+        onmouseover="this.style.background='#9ADB85'"
+        onmouseout="this.style.background='var(--verde-bright)'"
+      >Elegir →</button>
     </div>
+    <div id="lugar-confirmado" style="display:none;margin-top:12px;font-size:14px;color:var(--verde-bright);animation:fadeDown .4s ease">
+      ✓ <span id="lugar-texto"></span> — ¡Listo para empezar!
+    </div>
+  </div>
 
-    <script>
-        function toggleFAQ(element) {
-            const faqItem = element.parentElement;
-            faqItem.classList.toggle('active');
-        }
-    </script>
+  <div class="hero-btns">
+    <a href="https://wa.me/5493456461557?text=Hola%20Nahue%2C%20quiero%20info%20sobre%20Mensajero%20Rural" class="btn-primary" id="btn-hero-wsp">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Empezar gratis por WhatsApp
+    </a>
+    <a href="#como-funciona" class="btn-secondary">Ver cómo funciona →</a>
+  </div>
+
+  <!-- Chat simulado -->
+  <div class="hero-chat">
+    <div class="chat-header">
+      <div class="chat-avatar">🤖</div>
+      <div>
+        <div class="chat-name">Mensajero Rural Bot</div>
+        <div class="chat-status">● en línea</div>
+      </div>
+    </div>
+    <div class="chat-msgs">
+      <div class="msg msg-user">
+        🎤 "Vacuné 45 terneros hoy con aftosa"
+        <div class="msg-time">10:23</div>
+      </div>
+      <div class="msg msg-bot">
+        ✅ Registrado. <strong>45 terneros</strong> vacunados con aftosa el martes 19/05.<br><br>
+        ¿Querés agregar el lote o algún detalle más?
+        <div class="msg-time">10:23</div>
+      </div>
+      <div class="msg msg-user">
+        No, está bien
+        <div class="msg-time">10:24</div>
+      </div>
+      <div class="msg msg-bot">
+        👍 Perfecto. Ya está en tu registro. Esta semana llevás 3 eventos registrados.
+        <div class="msg-time">10:24</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF BAR -->
+<div class="proof-bar">
+  <div class="proof-item">
+    <div class="proof-num">120+</div>
+    <div>productores<br>activos</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-num">30</div>
+    <div>días gratis<br>sin tarjeta</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-num">5min</div>
+    <div>para empezar<br>a usarlo</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-num">100%</div>
+    <div>por WhatsApp<br>sin apps nuevas</div>
+  </div>
+</div>
+
+<!-- CÓMO FUNCIONA -->
+<section id="como-funciona" class="sec">
+  <div class="sec-inner">
+    <div class="reveal">
+      <div class="sec-label">Así de simple</div>
+      <h2 class="sec-titulo">Tres pasos.<br>Nada más.</h2>
+      <p class="sec-desc">No hay que instalar nada, aprender un sistema nuevo ni cambiar tus hábitos.</p>
+    </div>
+    <div class="pasos reveal">
+      <div class="paso">
+        <div class="paso-num">PASO 01</div>
+        <span class="paso-icon">🎙️</span>
+        <h3 class="paso-titulo">Mandás un audio o mensaje</h3>
+        <p class="paso-desc">"Vacuné 45 terneros", "Vendí 12 novillos a $850", "Se murió una vaca"… lo que sea, como siempre.</p>
+      </div>
+      <div class="paso">
+        <div class="paso-num">PASO 02</div>
+        <span class="paso-icon">🤖</span>
+        <h3 class="paso-titulo">La IA entiende y registra</h3>
+        <p class="paso-desc">Procesa tu audio, extrae la información y la guarda automáticamente: fecha, animales, tratamiento, cantidades.</p>
+      </div>
+      <div class="paso">
+        <div class="paso-num">PASO 03</div>
+        <span class="paso-icon">📊</span>
+        <h3 class="paso-titulo">Tenés todo ordenado</h3>
+        <p class="paso-desc">Resumen semanal por WhatsApp, historial completo en la web, exportación a Excel cuando quieras.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EJEMPLOS -->
+<section id="ejemplos" class="sec ej-sec">
+  <div class="sec-inner">
+    <div class="reveal">
+      <div class="sec-label" style="color:var(--verde-bright)">Mensajes reales</div>
+      <h2 class="sec-titulo" style="color:var(--crema)">Decís lo que sea.<br>El bot lo registra.</h2>
+      <p class="sec-desc" style="color:rgba(245,237,216,.65)">Así de natural. Como cuando le mandás un mensaje a un conocido.</p>
+    </div>
+    <div class="ej-grid reveal">
+      <div class="ej-card"><span class="ej-emoji">💉</span>"Vacuné 28 vaquillonas"</div>
+      <div class="ej-card"><span class="ej-emoji">💰</span>"Vendí 12 novillos a $850"</div>
+      <div class="ej-card"><span class="ej-emoji">💀</span>"Se me murió un ternero"</div>
+      <div class="ej-card"><span class="ej-emoji">🌾</span>"Apliqué urea en el lote 4"</div>
+      <div class="ej-card"><span class="ej-emoji">🐮</span>"Nació un ternero macho"</div>
+      <div class="ej-card"><span class="ej-emoji">🚜</span>"Aré el lote 3 hoy"</div>
+      <div class="ej-card"><span class="ej-emoji">🌱</span>"Fertilicé el maíz"</div>
+      <div class="ej-card"><span class="ej-emoji">🩹</span>"Traté un animal con fiebre"</div>
+      <div class="ej-card"><span class="ej-emoji">🐄</span>"Parió la vaca del lote 2"</div>
+      <div class="ej-card"><span class="ej-emoji">🌧️</span>"Llovieron 40mm hoy"</div>
+      <div class="ej-card"><span class="ej-emoji">🚰</span>"Bajé agua al potrero norte"</div>
+      <div class="ej-card"><span class="ej-emoji">📋</span>"Compré 500kg de semilla"</div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFICIOS -->
+<section id="beneficios" class="sec">
+  <div class="sec-inner">
+    <div class="reveal">
+      <div class="sec-label">Para qué te sirve</div>
+      <h2 class="sec-titulo">Tu campo, siempre<br>bajo control.</h2>
+    </div>
+    <div class="ben-grid reveal">
+      <div class="ben-card">
+        <div class="ben-icon">⏱️</div>
+        <h3 class="ben-titulo">Ahorrás horas por semana</h3>
+        <p class="ben-desc">Nada de cuadernos, planillas ni sistemas complicados. 30 segundos de audio y listo.</p>
+      </div>
+      <div class="ben-card">
+        <div class="ben-icon">📍</div>
+        <h3 class="ben-titulo">Sabés qué pasa, siempre</h3>
+        <p class="ben-desc">Historial completo de cada animal, lote y evento. Nunca más "¿cuándo vacunamos esto último?"</p>
+      </div>
+      <div class="ben-card">
+        <div class="ben-icon">📱</div>
+        <h3 class="ben-titulo">Solo necesitás WhatsApp</h3>
+        <p class="ben-desc">No hay que instalar nada nuevo. Funciona en el celular que ya tenés, con la app que ya usás.</p>
+      </div>
+      <div class="ben-card">
+        <div class="ben-icon">📈</div>
+        <h3 class="ben-titulo">Reportes automáticos</h3>
+        <p class="ben-desc">Cada semana recibís un resumen por WhatsApp. Podés exportar todo a Excel en cualquier momento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUIÉN -->
+<section id="para-quien" class="sec pq-sec">
+  <div class="sec-inner">
+    <div class="reveal">
+      <div class="sec-label">¿Es para mí?</div>
+      <h2 class="sec-titulo">Para productores<br>del campo, sin vueltas.</h2>
+      <p class="sec-desc">Si manejás campo y querés dejar de depender del cuaderno, es para vos.</p>
+    </div>
+    <div class="pq-grid reveal">
+      <div class="pq-card"><div class="pq-dot"></div>Ganaderos (cría, recría, feedlot)</div>
+      <div class="pq-card"><div class="pq-dot"></div>Productores agrícolas</div>
+      <div class="pq-card"><div class="pq-dot"></div>Tambos y lechería</div>
+      <div class="pq-card"><div class="pq-dot"></div>Establecimientos mixtos</div>
+      <div class="pq-card"><div class="pq-dot"></div>Productores medianos y chicos</div>
+      <div class="pq-card"><div class="pq-dot"></div>Administradores de campos</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section id="testimonios" class="sec">
+  <div class="sec-inner">
+    <div class="reveal">
+      <div class="sec-label">Lo que dicen</div>
+      <h2 class="sec-titulo">Productores reales,<br>resultados reales.</h2>
+    </div>
+    <div class="testi-grid reveal">
+      <div class="testi-card">
+        <p class="testi-quote">Ahora registro todo desde la camioneta. Me ahorré horas por semana y nunca más pierdo datos.</p>
+        <div class="testi-autor">
+          <div class="testi-avatar">J</div>
+          <div>
+            <div class="testi-nombre">Juan Carlos</div>
+            <div class="testi-lugar">Productor ganadero · Chajarí, ER</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">El resumen semanal por WhatsApp es lo mejor. Ya no me olvido de nada y mi contador está feliz.</p>
+        <div class="testi-autor">
+          <div class="testi-avatar">R</div>
+          <div>
+            <div class="testi-nombre">Roberto</div>
+            <div class="testi-lugar">Tambo · Colón, ER</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRECIOS -->
+<section id="precios" class="sec precio-sec">
+  <div class="sec-inner" style="text-align:center">
+    <div class="reveal">
+      <div class="sec-label" style="color:var(--verde-bright)">Sin sorpresas</div>
+      <h2 class="sec-titulo" style="color:var(--crema)">Un precio.<br>Sin letra chica.</h2>
+    </div>
+    <div class="precio-card reveal">
+      <div class="precio-badge-gratis">30 días gratis</div>
+      <div class="precio-num">$9.900</div>
+      <div class="precio-unit">pesos / mes</div>
+      <p class="precio-desc">Después del período de prueba. Sin tarjeta para empezar.</p>
+      <div class="precio-features">
+        <div class="precio-feature"><span class="precio-check">✓</span> Audios y mensajes ilimitados</div>
+        <div class="precio-feature"><span class="precio-check">✓</span> Resumen semanal automático</div>
+        <div class="precio-feature"><span class="precio-check">✓</span> Dashboard web incluido</div>
+        <div class="precio-feature"><span class="precio-check">✓</span> Exportación a Excel</div>
+        <div class="precio-feature"><span class="precio-check">✓</span> Soporte por WhatsApp</div>
+        <div class="precio-feature"><span class="precio-check">✓</span> Sin permanencia mínima</div>
+      </div>
+      <a href="#" class="btn-primary" style="width:100%;justify-content:center;font-size:17px;padding:18px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Empezar gratis ahora
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="sec">
+  <div class="sec-inner">
+    <div class="reveal">
+      <div class="sec-label">Preguntas frecuentes</div>
+      <h2 class="sec-titulo">Todo lo que<br>necesitás saber.</h2>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q">¿Necesito internet todo el tiempo? <span class="faq-icon">+</span></button>
+        <div class="faq-a">No. Podés mandar los audios sin internet y se sincronizan automáticamente cuando tengas señal. Ideal para zonas rurales con conectividad irregular.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Funciona con cualquier celular? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Sí. Solo necesitás WhatsApp instalado, que es lo que ya tenés. Android o iPhone, no importa.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Puedo exportar los datos? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Sí, podés exportar todo a Excel en cualquier momento desde el dashboard web. Tus datos siempre son tuyos.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Qué pasa cuando termina el período gratis? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Te avisamos con anticipación. Si querés seguir, son $9.900 por mes. Si no, tus datos se exportan y listo, sin complicaciones.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Funciona para ganadería, agricultura y tambo? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Sí. La IA está entrenada para entender cualquier tipo de evento rural: vacunaciones, partos, ventas, tratamientos, labores agrícolas, lluvias, y más.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <h2 class="reveal">30 días gratis.<br>Sin tarjeta.<br>Sin vueltas.</h2>
+  <p class="reveal">Empezá hoy y en 5 minutos ya estás registrando tu primer evento.</p>
+  <div class="reveal">
+    <a href="#" class="btn-primary" style="font-size:18px;padding:20px 48px;display:inline-flex">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Empezar por WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🌾 Mensajero Rural</div>
+  <p class="footer-sub">Hecho para productores del campo · Chajarí, Entre Ríos</p>
+</footer>
+
+<!-- FLOAT WHATSAPP -->
+<a href="https://wa.me/5493456461557?text=Hola%20Nahue%2C%20quiero%20info%20sobre%20Mensajero%20Rural" class="wsp-float" title="Hablar por WhatsApp">💬</a>
+
+<script>
+// Reveal on scroll
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach((el, i) => {
+  el.style.transitionDelay = (i % 3) * .08 + 's';
+  obs.observe(el);
+});
+
+// FAQ
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+// ══ SELECTOR LUGAR ══
+function seleccionarLugar() {
+  const val = document.getElementById('lugar-input').value.trim();
+  if (!val) {
+    document.getElementById('lugar-input').focus();
+    document.getElementById('lugar-input').style.borderBottom = '1px solid rgba(255,255,255,.4)';
+    return;
+  }
+  // Mostrar confirmación
+  document.getElementById('lugar-texto').textContent = val;
+  document.getElementById('lugar-confirmado').style.display = 'block';
+  // Actualizar el botón de CTA con el lugar
+  const btn = document.getElementById('btn-hero-wsp');
+  if (btn) btn.setAttribute('data-lugar', val);
+  // Actualizar el badge del hero
+  const badge = document.querySelector('.hero-badge');
+  if (badge) badge.innerHTML = `<span>📍</span> ${val}`;
+  // Scroll suave a los botones
+  document.querySelector('.hero-btns').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+// También activar con Enter
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('lugar-input');
+  if (input) {
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') seleccionarLugar(); });
+  }
+});
+
+// Scroll suave
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const href = a.getAttribute('href');
+    if (href === '#') return;
+    e.preventDefault();
+    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
 </body>
 </html>
